@@ -1,0 +1,34 @@
+.alert {
+  padding: 20px 40px;
+  font-size: 14px;
+
+}
+
+.alert-container {
+  position: relative;
+  text-align: left;
+}
+
+.alert-close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  color: #fff;
+}
+
+.alert-primary {
+  @include color-style($primary, $primary, $white)
+}
+
+.alert-danger {
+  @include color-style($danger, $danger, $white)
+}
+
+.alert-default {
+  @include color-style($primary, $primary, $white)
+}
+
+.alert-warning {
+  @include color-style($warning, $warning, $white)
+}
