@@ -1,20 +1,39 @@
 import reactLogo from '@/assets/react.svg'
 import Alert from '@/components/Alert/alert'
 import Button from '@/components/Button/button'
+import Menu from '@/components/Menu/menu'
+import MenuItem from '@/components/Menu/menuItem'
 import { useCountStore } from '@/store'
 
 function Home() {
   const countStore = useCountStore()
+
   return (
     <>
       <div>
         This is home page
+        <hr />
+        <Menu defaultIndex={0} onSelect={(i) => console.log(`currentActive is ${i}`)}>
+          <MenuItem index={0}>
+            item0
+          </MenuItem>
+          <MenuItem index={1}>
+            item1
+          </MenuItem>
+          <MenuItem index={2}>
+            item2
+          </MenuItem>
+        </Menu>
+        <hr />
         <Button btnType="default" className="custom">Default</Button>
         <Button btnType="link" href="https://www.baidu.com">test</Button>
         <Button btnType="primary">Primary</Button>
+        <hr />
       </div>
       <div>
-        <Alert content="hi" header="header" />
+        <Alert header="header">
+          hi
+        </Alert>
       </div>
       <div className="App">
         <div>
