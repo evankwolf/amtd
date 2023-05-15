@@ -6,7 +6,7 @@ import { MenuCtx } from './menu'
 
 export interface MenuItemProps {
   children?: React.ReactNode
-  index: number
+  index?: number
   disabled?: boolean
   className?: string
   style?: React.CSSProperties
@@ -30,7 +30,7 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
 
   const handleClick = () => {
     if (ctx.onSelect && !disabled) {
-      ctx.onSelect(index)
+      ctx.onSelect(index!)
     }
   }
 

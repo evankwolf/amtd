@@ -2,6 +2,8 @@ import React, { createContext, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
+import type { MenuItemProps } from './menuItem'
+
 type MenuMode = 'horizontal' | 'vertical'
 type SelectCallback = (selectedIndex: number) => void
 
@@ -49,10 +51,27 @@ const Menu: React.FC<MenuProps> = (props) => {
     onSelect: handleClick,
   }), [currentActive])
 
+  const renderChildren = () => {
+    let i: number = 0
+    return React.Children.map(children, (child, ii: number) => {
+      const childEl = child as React.FunctionComponentElement<MenuItemProps>
+      const { props: childProps, type } = childEl
+      if (type.name === 'MenuItem') {
+        if (childProps.index === undefined && ii !== 0 && i === 0) {
+          throw new Error('Error: Either do not pass \'index\' to any MenuItem, or pass \'index\' to every MenuItem. ')
+        } else {
+          return React.cloneElement(childEl, { index: i++ })
+        }
+      } else {
+        throw new Error('Error: Menu has at least one child which is not a MenuItem')
+      }
+    })
+  }
+
   return (
     <ul className={classes} style={style} data-testid="test-menu">
       <MenuCtx.Provider value={passedContext}>
-        {children}
+        {renderChildren()}
       </MenuCtx.Provider>
     </ul>
   )

@@ -17,7 +17,7 @@ function Home() {
           <MenuItem index={0}>
             item0
           </MenuItem>
-          <MenuItem index={1}>
+          <MenuItem index={1} disabled>
             item1
           </MenuItem>
           <MenuItem index={2}>

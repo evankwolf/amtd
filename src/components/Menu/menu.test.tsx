@@ -23,13 +23,13 @@ const verticalProps: MenuProps = {
 const createMenu = (props: MenuProps) => {
   const wrapper = render(
     <Menu {...props}>
-      <MenuItem index={0}>
+      <MenuItem>
         abc
       </MenuItem>
-      <MenuItem index={1} disabled>
+      <MenuItem disabled>
         ijk
       </MenuItem>
-      <MenuItem index={2}>
+      <MenuItem>
         xyz
       </MenuItem>
     </Menu>,
@@ -50,6 +50,7 @@ describe('test Menu and MenuItem component.', () => {
   })
   it('should render correct Menu and MenuItem based on default props', () => {
     const children = el.querySelectorAll('li')
+
     expect(el).toBeInTheDocument()
     expect(el).toHaveClass('menu')
     expect(children.length).toEqual(3)
@@ -60,6 +61,8 @@ describe('test Menu and MenuItem component.', () => {
   })
   it('should change active element and call the right callback when a menu item is clicked', () => {
     const children = el.querySelectorAll('li')
+    expect(disabledElement).toBeInTheDocument()
+    expect(disabledElement).toHaveClass('is-disabled')
     fireEvent.click(disabledElement!)
     expect(defaultProps.onSelect).not.toHaveBeenCalled()
 
