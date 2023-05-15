@@ -3,6 +3,7 @@ import Alert from '@/components/Alert/alert'
 import Button from '@/components/Button/button'
 import Menu from '@/components/Menu/menu'
 import MenuItem from '@/components/Menu/menuItem'
+import SubMenu from '@/components/Menu/subMenu'
 import { useCountStore } from '@/store'
 
 function Home() {
@@ -13,27 +14,72 @@ function Home() {
       <div>
         This is home page
         <hr />
-        <Menu defaultIndex={0} onSelect={(i) => console.log(`currentActive is ${i}`)}>
-          <MenuItem index={0}>
+        <Menu defaultIndex="0" onSelect={(i) => console.log(`currentActive is ${i}`)}>
+          <MenuItem>
             item0
           </MenuItem>
-          <MenuItem index={1} disabled>
+          <MenuItem disabled>
             item1
           </MenuItem>
-          <MenuItem index={2}>
+          <MenuItem>
             item2
           </MenuItem>
         </Menu>
         <hr />
-        <Menu defaultIndex={0} onSelect={(i) => console.log(`currentActive is ${i}`)} mode="vertical">
-          <MenuItem index={0}>
+        <Menu onSelect={(i) => console.log(`currentActive is ${i}`)} mode="vertical">
+          <MenuItem>
             item0
           </MenuItem>
-          <MenuItem index={1}>
+          <MenuItem>
             item1
           </MenuItem>
-          <MenuItem index={2}>
+          <MenuItem>
             item2
+          </MenuItem>
+        </Menu>
+        <hr />
+        <Menu defaultIndex="0" onSelect={(i) => console.log(`currentActive is ${i}`)}>
+          <MenuItem>
+            item0
+          </MenuItem>
+          <MenuItem disabled>
+            item1
+          </MenuItem>
+          <SubMenu title="submenu">
+            <MenuItem>
+              Submenu item 1
+            </MenuItem>
+            <MenuItem>
+              Submenu item 2
+            </MenuItem>
+          </SubMenu>
+          <MenuItem>
+            item3
+          </MenuItem>
+        </Menu>
+        <hr />
+        <Menu
+          defaultIndex="0"
+          defaultOpenSubMenu
+          onSelect={(i) => console.log(`currentActive is ${i}`)}
+          mode="vertical"
+        >
+          <MenuItem>
+            item0
+          </MenuItem>
+          <MenuItem disabled>
+            item1
+          </MenuItem>
+          <SubMenu title="submenu">
+            <MenuItem>
+              Submenu item 1
+            </MenuItem>
+            <MenuItem>
+              Submenu item 2
+            </MenuItem>
+          </SubMenu>
+          <MenuItem>
+            item3
           </MenuItem>
         </Menu>
         <hr />

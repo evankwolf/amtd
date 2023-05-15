@@ -6,7 +6,7 @@ import { MenuCtx } from './menu'
 
 export interface MenuItemProps {
   children?: React.ReactNode
-  index?: number
+  index?: string
   disabled?: boolean
   className?: string
   style?: React.CSSProperties
