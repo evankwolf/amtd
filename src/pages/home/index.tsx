@@ -25,6 +25,18 @@ function Home() {
           </MenuItem>
         </Menu>
         <hr />
+        <Menu defaultIndex={0} onSelect={(i) => console.log(`currentActive is ${i}`)} mode="vertical">
+          <MenuItem index={0}>
+            item0
+          </MenuItem>
+          <MenuItem index={1}>
+            item1
+          </MenuItem>
+          <MenuItem index={2}>
+            item2
+          </MenuItem>
+        </Menu>
+        <hr />
         <Button btnType="default" className="custom">Default</Button>
         <Button btnType="link" href="https://www.baidu.com">test</Button>
         <Button btnType="primary">Primary</Button>
