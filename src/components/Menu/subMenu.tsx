@@ -7,6 +7,8 @@ import { MenuCtx } from './menu'
 
 import type { MenuItemProps } from './menuItem'
 
+import Icon from '../Icon/icon'
+
 export interface SubMenuProps {
   index?: string
   title: string
@@ -73,11 +75,11 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
     )
   }
 
-  console.log('isVertical: ', isVerticalMode, events)
   return (
     <li key={props.index} className={classes} {...events}>
       <div className="submenu-title">
         {props.title}
+        <Icon icon="arrow-down" theme="dark" className="arrow-icon" size="xs" />
       </div>
       {renderChildren()}
     </li>
