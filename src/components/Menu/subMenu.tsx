@@ -53,7 +53,7 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
   const events = { ...clickEvents, ...hoverEvents }
 
   const renderChildren = () => {
-    const subMenuClasses = classNames('viking-submenu', {
+    const subMenuClasses = classNames('submenu', {
       'menu-opened': menuOpened,
     })
     const childrenComponent = React.Children.map(props.children, (child, i) => {

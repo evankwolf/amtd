@@ -66,13 +66,13 @@ describe('test Menu and MenuItem component.', () => {
     wrapper = createMenu(defaultProps)
     el = wrapper.getByTestId('test-menu')
     const style = `
-    .viking-submenu {
+    .submenu {
       display: none;
       list-style: none;
       padding-left: 0;
       white-space: nowrap;
     }
-    .viking-submenu.menu-opened {
+    .submenu.menu-opened {
       display: block;
     }
     `
