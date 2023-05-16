@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 
 import classNames from 'classnames'
 
+import Icon from '../Icon/icon'
+import Transition from '../Transition/transition'
+
 type AlertType = 'success' | 'default' | 'danger' | 'warning'
 
 export interface AlertProps {
@@ -35,29 +38,31 @@ const Alert: React.FC<AlertProps> = (props) => {
   })
 
   return (
-    show
-      ? (
-        <div className={classes}>
-          <div className="alert-container">
-            {header && <h3>{header}</h3>}
-            <span>{children}</span>
-            {
-              closable
-                ? (
-                  <span
-                    role="presentation"
-                    className="alert-close-btn"
-                    onClick={closeAlert}
-                  >
-                    关闭
-                  </span>
-                )
-                : null
-            }
-          </div>
+    <Transition
+      in={show}
+      timeout={300}
+      animation="zoom-in-top"
+    >
+      <div className={classes}>
+        <div className="alert-container">
+          {header && <h3>{header}</h3>}
+          <span>{children}</span>
+          {
+            closable
+              ? (
+                <span
+                  role="presentation"
+                  className="alert-close-btn"
+                  onClick={closeAlert}
+                >
+                  <Icon icon="close" theme="light" />
+                </span>
+              )
+              : null
+          }
         </div>
-      )
-      : null
+      </div>
+    </Transition>
   )
 }
 
