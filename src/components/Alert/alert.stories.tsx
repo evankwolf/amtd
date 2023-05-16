@@ -8,6 +8,7 @@ type Story = StoryFn<typeof Alert>
 const AlertMeta: Meta<typeof Alert> = {
   title: 'Alert',
   component: Alert,
+  tags: ['autodocs'],
 }
 
 export default AlertMeta

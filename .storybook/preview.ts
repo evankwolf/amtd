@@ -6,6 +6,11 @@ import "@/styles/index.scss"
 library.add(fas)
 const preview: Preview = {
   parameters: {
+    docs: {
+      canvas: {
+        sourceState: 'shown'
+      }
+    },
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {

@@ -10,7 +10,7 @@ type TransitionProps = CSSTransitionProps & {
   animation?: AnimationName
 }
 
-const Transition: React.FC<TransitionProps> = (props) => {
+export const Transition: React.FC<TransitionProps> = (props) => {
   const {
     children,
     classNames,

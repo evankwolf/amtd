@@ -1,11 +1,13 @@
-import React from "react";
-import type { Meta, StoryFn } from "@storybook/react";
+import React from 'react'
 
-import Button from "./button";
+import { Button } from './button'
+
+import type { Meta, StoryFn } from '@storybook/react'
 
 const buttonMeta: Meta<typeof Button> = {
   title: 'Ch4 Button',
-  component: Button
+  component: Button,
+  tags: ['autodocs'],
 }
 
 export default buttonMeta
@@ -16,24 +18,24 @@ export const Playground: Story = (args) => (
 )
 
 const Template: Story = (args) => (
-  <Button {...args}></Button>
+  <Button {...args} />
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  children: ' Default Button'
+  children: ' Default Button',
 }
 
 export const Large = Template.bind({})
 Large.args = {
   size: 'lg',
-  children: 'Large'
+  children: 'Large',
 }
 
 export const Small = Template.bind({})
 Small.args = {
   size: 'sm',
-  children: 'Small'
+  children: 'Small',
 }
 
 export const ButtonWithTypes: Story = () => (
