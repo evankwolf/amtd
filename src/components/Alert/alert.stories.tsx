@@ -1,7 +1,8 @@
 import React from 'react'
-import { Meta, StoryFn } from '@storybook/react'
 
-import Alert from './alert'
+import { Alert } from './alert'
+
+import type { Meta, StoryFn } from '@storybook/react'
 
 type Story = StoryFn<typeof Alert>
 
@@ -20,20 +21,20 @@ Template.storyName = 'Playground'
 
 export const SuccessType: Story = Template.bind({})
 SuccessType.args = {
-  type: 'success'
+  type: 'success',
 }
 
 export const DefaultType: Story = Template.bind({})
 DefaultType.args = {
-  type: 'default'
+  type: 'default',
 }
 
 export const DangerType: Story = Template.bind({})
 DangerType.args = {
-  type: 'danger'
+  type: 'danger',
 }
 
 export const WarningType: Story = Template.bind({})
 WarningType.args = {
-  type: 'warning'
+  type: 'warning',
 }
