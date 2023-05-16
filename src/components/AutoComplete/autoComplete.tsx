@@ -8,11 +8,17 @@ import type { InputProps } from '../Input/input'
 import { Input } from '../Input/input'
 import { Transition } from '../Transition/transition'
 
-type Suggestion = string
+interface DataSourceObject {
+  value: string
+}
+
+export type Suggestion<T = {}> = T & DataSourceObject
 
 export interface AutoCompleteProps extends Omit<InputProps, 'onSelect'> {
   fetchSuggestions: (keyword: string) => Suggestion[]
   onSelect: (suggestion: Suggestion) => void
+  renderOption?: (data: Suggestion) => React.ReactNode
+  valKey: string
 }
 
 export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
@@ -20,6 +26,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     fetchSuggestions,
     onSelect,
     className,
+    renderOption,
     ...rest
   } = props
 
@@ -40,7 +47,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   }
 
   const handleSelect = (suggestion: Suggestion) => {
-    setKeyword(suggestion)
+    setKeyword(suggestion.value)
     onSelect(suggestion)
   }
 
@@ -57,7 +64,11 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
               key={i}
               className="suggestion-item"
               onSelect={() => handleSelect(suggestion)}
-            >{suggestion}
+            >{
+                renderOption
+                  ? renderOption(suggestion)
+                  : suggestion.value
+              }
             </li>
           ))
         }
