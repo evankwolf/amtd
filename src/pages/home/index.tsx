@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import reactLogo from '@/assets/react.svg'
 import Alert from '@/components/Alert/alert'
 import Button from '@/components/Button/button'
@@ -5,17 +7,25 @@ import Icon from '@/components/Icon/icon'
 import Menu from '@/components/Menu/menu'
 import MenuItem from '@/components/Menu/menuItem'
 import SubMenu from '@/components/Menu/subMenu'
+import Transition from '@/components/Transition/transition'
 import { useCountStore } from '@/store'
 
 function Home() {
   const countStore = useCountStore()
-
+  const [show, setShow] = useState(true)
   return (
     <>
       <div>
         This is home page
         <hr />
-        <Icon theme="primary" icon="arrow-down" />
+        <button type="button" onClick={() => setShow(!show)}>Change visibility</button>
+        <Transition
+          in={show}
+          timeout={300}
+          animation="zoom-in-top"
+        >
+          <Icon theme="primary" icon="arrow-down" />
+        </Transition>
         <hr />
         <Menu defaultIndex="0" onSelect={(i) => console.log(`currentActive is ${i}`)}>
           <MenuItem>

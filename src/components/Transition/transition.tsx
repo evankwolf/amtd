@@ -15,6 +15,7 @@ const Transition: React.FC<TransitionProps> = (props) => {
     children,
     classNames,
     animation,
+    wrapper,
     ...rest
   } = props
 
@@ -23,7 +24,12 @@ const Transition: React.FC<TransitionProps> = (props) => {
       classNames={classNames || animation}
       {...rest}
     >
-      {children}
+      {
+        wrapper
+          // @ts-ignore
+          ? <div>{children}</div>
+          : children
+      }
     </CSSTransition>
   )
 }
@@ -31,6 +37,7 @@ const Transition: React.FC<TransitionProps> = (props) => {
 Transition.defaultProps = {
   unmountOnExit: true,
   appear: true,
+  wrapper: true,
 }
 
 export default Transition
