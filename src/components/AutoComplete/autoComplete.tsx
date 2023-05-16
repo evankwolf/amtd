@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import classNames from 'classnames'
 
+import { useClickOutside } from '@/hooks/useClickOutside'
 import { useDebounce } from '@/hooks/useDebounce'
 
 import type { InputProps } from '../Input/input'
@@ -33,11 +34,15 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   } = props
 
   const triggerSearch = useRef(false)
+  const container = useRef<HTMLDivElement>(null)
+
   const [inputVal, setInputVal] = useState('')
   const keyword = useDebounce(inputVal)
   const [suggestions, setSuggestions] = useState<DataSourceType[]>()
   const [loading, setLoading] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
+
+  useClickOutside(container, () => setSuggestions([]))
 
   const classes = classNames('amt-auto-complete', className)
 
@@ -135,7 +140,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     )
   }
   return (
-    <div className={classes}>
+    <div className={classes} ref={container}>
       <Input value={inputVal} onChange={handleChange} onKeyDown={handleKeyEvent} {...rest} />
       {generateDropdown()}
     </div>
