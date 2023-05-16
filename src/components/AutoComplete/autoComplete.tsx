@@ -7,18 +7,18 @@ import type { InputProps } from '../Input/input'
 
 import { Input } from '../Input/input'
 import { Transition } from '../Transition/transition'
+import Icon from '../Icon/icon'
 
 interface DataSourceObject {
   value: string
 }
 
-export type Suggestion<T = {}> = T & DataSourceObject
+export type DataSourceType<T = {}> = T & DataSourceObject
 
 export interface AutoCompleteProps extends Omit<InputProps, 'onSelect'> {
-  fetchSuggestions: (keyword: string) => Suggestion[]
-  onSelect: (suggestion: Suggestion) => void
-  renderOption?: (data: Suggestion) => React.ReactNode
-  valKey: string
+  fetchSuggestions: (keyword: string) => DataSourceType[] | Promise<DataSourceType[]>
+  onSelect: (suggestion: DataSourceType) => void
+  renderOption?: (data: DataSourceType) => React.ReactNode
 }
 
 export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
@@ -31,22 +31,28 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   } = props
 
   const [keyword, setKeyword] = useState('')
-  const [suggestions, setSuggestions] = useState<Suggestion[]>()
+  const [suggestions, setSuggestions] = useState<DataSourceType[]>()
+  const [loading, setLoading] = useState(false)
 
   const classes = classNames('amt-auto-complete', className)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    setKeyword(value.trim())
+    const value = e.target.value.trim()
+    setKeyword(value)
     if (value) {
       const res = fetchSuggestions(value)
-      setSuggestions(res)
+      if (res instanceof Promise) {
+        setLoading(true)
+        res.then(setSuggestions).finally(() => setLoading(false))
+      } else {
+        setSuggestions(res)
+      }
     } else {
       setSuggestions([])
     }
   }
 
-  const handleSelect = (suggestion: Suggestion) => {
+  const handleSelect = (suggestion: DataSourceType) => {
     setKeyword(suggestion.value)
     onSelect(suggestion)
   }
@@ -59,18 +65,20 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     >
       <ul className="amt-suggestions-group">
         {
-          suggestions && suggestions.length > 0 && suggestions.map((suggestion, i) => (
-            <li
-              key={i}
-              className="suggestion-item"
-              onSelect={() => handleSelect(suggestion)}
-            >{
-                renderOption
-                  ? renderOption(suggestion)
-                  : suggestion.value
-              }
-            </li>
-          ))
+          loading
+            ? <Icon icon="spinner" theme='dark' spin />
+            : suggestions && suggestions.length > 0 && suggestions.map((suggestion, i) => (
+              <li
+                key={i}
+                className="suggestion-item"
+                onSelect={() => handleSelect(suggestion)}
+              >{
+                  renderOption
+                    ? renderOption(suggestion)
+                    : suggestion.value
+                }
+              </li>
+            ))
         }
       </ul>
     </Transition>
