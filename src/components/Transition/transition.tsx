@@ -7,6 +7,7 @@ import type { CSSTransitionProps } from 'react-transition-group/CSSTransition'
 type AnimationName = 'zoom-in-top' | 'zoom-in-right' | 'zoom-in-bottom' | 'zoom-in-left'
 
 type TransitionProps = CSSTransitionProps & {
+  timeout?: number
   animation?: AnimationName
 }
 
@@ -35,6 +36,7 @@ export const Transition: React.FC<TransitionProps> = (props) => {
 }
 
 Transition.defaultProps = {
+  timeout: 300,
   unmountOnExit: true,
   appear: true,
   wrapper: true,
