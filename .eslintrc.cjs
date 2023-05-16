@@ -3,18 +3,18 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    es6: true
+    es6: true,
   },
   settings: {
     react: {
-      version: 'detect'
+      version: 'detect',
     },
     'import/resolver': {
       typescript: {},
       // this loads <rootdir>/tsconfig.json to eslint
-      node: {}
+      node: {},
     },
-    polyfills: ['Promise', 'URL']
+    polyfills: ['Promise', 'URL'],
   },
   parser: '@typescript-eslint/parser',
   plugins: ['react', 'babel', '@typescript-eslint', 'react-hooks', 'css-import-order'],
@@ -23,20 +23,20 @@ module.exports = {
     files: ['*.ts', '*.tsx'],
     rules: {
       '@typescript-eslint/no-unused-vars': [2, {
-        args: 'none'
+        args: 'none',
       }],
       'no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-expressions': 2,
       '@typescript-eslint/consistent-type-imports': [2, {
-        disallowTypeAnnotations: false
+        disallowTypeAnnotations: false,
       }],
       'react/jsx-tag-spacing': [2, {
         closingSlash: 'never',
         beforeSelfClosing: 'always',
         afterOpening: 'never',
-        beforeClosing: 'never'
-      }]
-    }
+        beforeClosing: 'never',
+      }],
+    },
   }],
   rules: {
     semi: [2, 'never'],
@@ -45,7 +45,7 @@ module.exports = {
     quotes: [2, 'single'],
     // 统一单引号
     'space-infix-ops': [2, {
-      int32Hint: false
+      int32Hint: false,
     }],
     // 二元操作符（比如=, |, +）前后有空格
     'space-before-function-paren': [2, {
@@ -53,38 +53,39 @@ module.exports = {
       // 匿名函数前要有空格
       named: 'never',
       // 具名函数名前不允许有空格
-      asyncArrow: 'always' // asnyc箭头函数前要有空格
+      asyncArrow: 'always', // async箭头函数前要有空格
     }],
 
     'keyword-spacing': [2, {
       before: true,
-      after: true
+      after: true,
     }],
     'comma-spacing': [2, {
       before: false,
       // 逗号前无空格
-      after: true // 逗号后有空格
+      after: true, // 逗号后有空格
     }],
 
     'max-len': [2, {
       code: 144,
       // 每行最长144个字符
-      ignoreStrings: true // 忽略字符串长度
+      ignoreStrings: true, // 忽略字符串长度
     }],
 
     'block-spacing': [2, 'always'],
     'key-spacing': [2, {
       beforeColon: false,
       // 对象键名:前必须无空格，e.g. {key :1} => {key: 1}
-      afterColon: true // 对象键名:后必须接空格，e.g. {key:1} => {key: 1}
+      afterColon: true, // 对象键名:后必须接空格，e.g. {key:1} => {key: 1}
     }],
 
     'arrow-spacing': [2, {
       before: true,
-      after: true
+      after: true,
     }],
     '@typescript-eslint/indent': [2, 2, {
-      ignoredNodes: ['JSXElement *', 'JSXElement']
+      SwitchCase: 1,
+      ignoredNodes: ['JSXElement *', 'JSXElement'],
     }],
     'react/jsx-indent-props': [2, 2],
     'react/jsx-one-expression-per-line': 0,
@@ -97,7 +98,7 @@ module.exports = {
     // 属性值为true时省略
     'react/jsx-wrap-multilines': ['error', {
       declaration: false,
-      assignment: false
+      assignment: false,
     }],
     'react/jsx-filename-extension': 0,
     'react/state-in-constructor': 0,
@@ -131,18 +132,18 @@ module.exports = {
       pathGroups: [{
         pattern: 'react',
         group: 'external',
-        position: 'before'
+        position: 'before',
       }, {
         pattern: '*.css',
         group: 'type',
-        position: 'after'
+        position: 'after',
       }],
       pathGroupsExcludedImportTypes: ['react'],
       'newlines-between': 'always',
       alphabetize: {
         order: 'asc',
-        caseInsensitive: true
-      }
+        caseInsensitive: true,
+      },
     }],
     'comma-dangle': ['error', 'always-multiline'],
     'consistent-return': 0,
@@ -166,12 +167,12 @@ module.exports = {
     'no-multi-spaces': [2],
     // 不要多个空格
     '@typescript-eslint/no-shadow': [2, {
-      ignoreTypeValueShadow: true
+      ignoreTypeValueShadow: true,
     }],
     // https://github.com/typescript-eslint/typescript-eslint/issues/2528#issuecomment-689369395
-    'no-undef': 1
+    'no-undef': 1,
   },
   globals: {
-    gtag: true
-  }
-};
+    gtag: true,
+  },
+}

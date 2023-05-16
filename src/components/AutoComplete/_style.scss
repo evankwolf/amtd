@@ -1,5 +1,11 @@
 .amt-auto-complete {
   position: relative;
+
+  .item-highlighted {
+    background-color: $primary;
+    color: #fff;
+  }
+
 }
 
 .amt-suggestion-list {

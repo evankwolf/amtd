@@ -1,15 +1,15 @@
-import type { ChangeEvent } from 'react'
-import React, { useState } from 'react'
+import type { ChangeEvent, KeyboardEvent } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import classNames from 'classnames'
 
+import { useDebounce } from '@/hooks/useDebounce'
+
 import type { InputProps } from '../Input/input'
 
+import { Icon } from '../Icon/icon'
 import { Input } from '../Input/input'
 import { Transition } from '../Transition/transition'
-import Icon from '../Icon/icon'
-import { useEffect } from 'react'
-import { useDebounce } from '@/hooks/useDebounce'
 
 interface DataSourceObject {
   value: string
@@ -36,17 +36,16 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
   const keyword = useDebounce(inputVal)
   const [suggestions, setSuggestions] = useState<DataSourceType[]>()
   const [loading, setLoading] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
 
   const classes = classNames('amt-auto-complete', className)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
-    console.log(value)
     setInputVal(value)
   }
 
   useEffect(() => {
-    console.log('------------', keyword)
     if (inputVal) {
       const res = fetchSuggestions(inputVal)
       if (res instanceof Promise) {
@@ -60,40 +59,81 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   }, [keyword])
 
+  const changeHighlightedIndex = (type: 'up' | 'down') => {
+    if (!suggestions || suggestions.length === 0) {
+      setHighlightedIndex(-1)
+      return
+    }
+    const reachDownLimit = highlightedIndex === suggestions.length - 1
+    const reachUpLimit = highlightedIndex === 0
+    if (type === 'down') {
+      setHighlightedIndex(reachDownLimit ? 0 : highlightedIndex + 1)
+    } else {
+      setHighlightedIndex(reachUpLimit ? suggestions.length - 1 : highlightedIndex - 1)
+    }
+  }
+
+  const handleKeyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
+    switch (e.key) {
+      case 'Enter':
+        if (suggestions && suggestions.length > 0) {
+          handleSelect(suggestions[highlightedIndex])
+        }
+        break
+      case 'ArrowUp':
+        changeHighlightedIndex('up')
+        break
+      case 'ArrowDown':
+        changeHighlightedIndex('down')
+        break
+      case 'Escape':
+        setSuggestions([])
+        setHighlightedIndex(-1)
+        break
+      default:
+        break
+    }
+  }
+
   const handleSelect = (suggestion: DataSourceType) => {
     setInputVal(suggestion.value)
     onSelect(suggestion)
   }
 
-  const generateDropdown = () => (
-    <Transition
-      in={suggestions && suggestions.length > 0}
-      timeout={300}
-      animation="zoom-in-top"
-    >
-      <ul className="amt-suggestions-group">
-        {
-          loading
-            ? <Icon icon="spinner" theme='dark' spin />
-            : suggestions && suggestions.length > 0 && suggestions.map((suggestion, i) => (
-              <li
-                key={i}
-                className="suggestion-item"
-                onSelect={() => handleSelect(suggestion)}
-              >{
-                  renderOption
-                    ? renderOption(suggestion)
-                    : suggestion.value
-                }
-              </li>
-            ))
-        }
-      </ul>
-    </Transition>
-  )
+  const generateDropdown = () => {
+    const cname = (i: number) => classNames('suggestion-item', {
+      'item-highlighted': i === highlightedIndex,
+    })
+    return (
+      <Transition
+        in={suggestions && suggestions.length > 0}
+        timeout={300}
+        animation="zoom-in-top"
+      >
+        <ul className="amt-suggestions-group">
+          {
+            loading
+              ? <Icon icon="spinner" theme="dark" spin />
+              : suggestions && suggestions.length > 0 && suggestions.map((suggestion, i) => (
+                <li
+                  key={i}
+                  className={cname(i)}
+                  onSelect={() => handleSelect(suggestion)}
+                >{
+                    renderOption
+                      ? renderOption(suggestion)
+                      : suggestion.value
+                  }
+                </li>
+              ))
+          }
+        </ul>
+      </Transition>
+    )
+  }
   return (
     <div className={classes}>
-      <Input value={inputVal} onChange={handleChange} {...rest} />
+      <Input value={inputVal} onChange={handleChange} onKeyDown={handleKeyEvent} {...rest} />
       {generateDropdown()}
     </div>
   )
