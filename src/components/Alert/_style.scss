@@ -32,3 +32,7 @@
 .alert-warning {
   @include color-style($warning, $warning, $white)
 }
+
+.alert-success {
+  @include color-style($success, $success, $white)
+}

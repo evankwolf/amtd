@@ -15,7 +15,7 @@ export interface AlertProps {
   onClose?: () => void
 }
 
-const Alert: React.FC<AlertProps> = (props) => {
+export const Alert: React.FC<AlertProps> = (props) => {
   const [show, setShow] = useState(true)
 
   const {
