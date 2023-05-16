@@ -1,5 +1,11 @@
 module.exports = {
-  extends: ['airbnb', 'plugin:react/recommended', 'plugin:import/typescript', 'plugin:css-import-order/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'airbnb',
+    'plugin:import/typescript',
+    'plugin:css-import-order/recommended',
+    'plugin:storybook/recommended',
+    'plugin:react/recommended',
+  ],
   env: {
     browser: true,
     node: true,

@@ -1,5 +1,5 @@
 import type { ChangeEvent, KeyboardEvent } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 import classNames from 'classnames'
 
@@ -32,6 +32,7 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     ...rest
   } = props
 
+  const triggerSearch = useRef(false)
   const [inputVal, setInputVal] = useState('')
   const keyword = useDebounce(inputVal)
   const [suggestions, setSuggestions] = useState<DataSourceType[]>()
@@ -40,13 +41,8 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 
   const classes = classNames('amt-auto-complete', className)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim()
-    setInputVal(value)
-  }
-
   useEffect(() => {
-    if (inputVal) {
+    if (inputVal && triggerSearch.current) {
       const res = fetchSuggestions(inputVal)
       if (res instanceof Promise) {
         setLoading(true)
@@ -59,24 +55,31 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     }
   }, [keyword])
 
-  const changeHighlightedIndex = (type: 'up' | 'down') => {
-    if (!suggestions || suggestions.length === 0) {
-      setHighlightedIndex(-1)
-      return
-    }
-    const reachDownLimit = highlightedIndex === suggestions.length - 1
-    const reachUpLimit = highlightedIndex === 0
-    if (type === 'down') {
-      setHighlightedIndex(reachDownLimit ? 0 : highlightedIndex + 1)
-    } else {
-      setHighlightedIndex(reachUpLimit ? suggestions.length - 1 : highlightedIndex - 1)
-    }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim()
+    triggerSearch.current = true
+    setInputVal(value)
   }
 
   const handleKeyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
+    const changeHighlightedIndex = (type: 'up' | 'down') => {
+      if (!suggestions || suggestions.length === 0) {
+        setHighlightedIndex(-1)
+        return
+      }
+      const reachDownLimit = highlightedIndex === suggestions.length - 1
+      const reachUpLimit = highlightedIndex === 0
+      if (type === 'down') {
+        setHighlightedIndex(reachDownLimit ? 0 : highlightedIndex + 1)
+      } else {
+        setHighlightedIndex(reachUpLimit ? suggestions.length - 1 : highlightedIndex - 1)
+      }
+    }
+
     switch (e.key) {
       case 'Enter':
         if (suggestions && suggestions.length > 0) {
+          triggerSearch.current = false
           handleSelect(suggestions[highlightedIndex])
         }
         break
