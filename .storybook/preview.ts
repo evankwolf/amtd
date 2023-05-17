@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import "@/styles/index.scss"
+import 'uno.css'
 
 library.add(fas)
 const preview: Preview = {
