@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import classNames from 'classnames'
 
-import Icon from '../Icon/icon'
-import Transition from '../Transition/transition'
+import { Icon } from '../Icon/icon'
+import { Transition } from '../Transition/transition'
 
 type AlertType = 'success' | 'default' | 'danger' | 'warning'
 
@@ -43,7 +43,7 @@ export const Alert: React.FC<AlertProps> = (props) => {
       timeout={300}
       animation="zoom-in-top"
     >
-      <div className={classes}>
+      <div className={classes} data-testid="test-alert">
         <div className="alert-container">
           {header && <h3>{header}</h3>}
           <span>{children}</span>

@@ -7,7 +7,7 @@ import {
   beforeEach, describe, it, vi,
 } from 'vitest'
 
-import Menu from './menu'
+import { Menu } from './menu'
 import MenuItem from './menuItem'
 import SubMenu from './subMenu'
 
@@ -113,19 +113,21 @@ describe('test Menu and MenuItem component.', () => {
   })
   it('should show dropdown items when hover on subMenu', async () => {
     const dropdownTrigger = wrapper.getByText('submenu')
-    const dropdownEl = wrapper.getByText('Submenu item 1')
+    let dropdownEl = wrapper.container.querySelector('.submenu-item .menu-item')
+
     expect(dropdownTrigger).toBeVisible()
-    expect(dropdownEl).not.toBeVisible()
+    expect(dropdownEl).not.toBeInTheDocument()
 
     fireEvent.mouseEnter(dropdownTrigger)
     await waitFor(() => {
+      dropdownEl = wrapper.getByText('Submenu item 1')
       expect(dropdownEl).toBeVisible()
     })
 
-    fireEvent.click(dropdownEl)
+    fireEvent.click(dropdownEl!)
     expect(defaultProps.onSelect).toHaveBeenCalledWith('3-0')
 
-    fireEvent.mouseLeave(dropdownEl)
+    fireEvent.mouseLeave(dropdownEl!)
     await waitFor(() => {
       expect(dropdownEl).not.toBeVisible()
     })
