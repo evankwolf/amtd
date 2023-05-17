@@ -68,13 +68,9 @@ export const Playground: Story = (args) => (
 )
 
 export const AutoCompleteWithLoading: Story = () => {
-  const fetchGithubUsers = (query: string) => {
-    return fetch(`https://api.github.com/search/users?q=${query}`)
-      .then(res => res.json())
-      .then(({ items }) => {
-        return items.slice(0, 10).map((item: any) => ({ value: item.login, ...item }))
-      })
-  }
+  const fetchGithubUsers = (query: string) => fetch(`https://api.github.com/search/users?q=${query}`)
+    .then((res) => res.json())
+    .then(({ items }) => items.slice(0, 10).map((item: any) => ({ value: item.login, ...item })))
   const onSelect = (data: any) => console.log(data)
   const render = (data: DataSourceType) => {
     const sData = data as DataSourceType<GithubUserProps>

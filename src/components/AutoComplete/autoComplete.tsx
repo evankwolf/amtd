@@ -66,21 +66,21 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     setInputVal(value)
   }
 
-  const handleKeyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
-    const changeHighlightedIndex = (type: 'up' | 'down') => {
-      if (!suggestions || suggestions.length === 0) {
-        setHighlightedIndex(-1)
-        return
-      }
-      const reachDownLimit = highlightedIndex === suggestions.length - 1
-      const reachUpLimit = highlightedIndex === 0
-      if (type === 'down') {
-        setHighlightedIndex(reachDownLimit ? 0 : highlightedIndex + 1)
-      } else {
-        setHighlightedIndex(reachUpLimit ? suggestions.length - 1 : highlightedIndex - 1)
-      }
+  const changeHighlightedIndex = (i: number, clear?: boolean) => {
+    if (!suggestions || suggestions.length === 0 || clear) {
+      setHighlightedIndex(-1)
+      return
     }
+    if (i >= suggestions.length) {
+      setHighlightedIndex(0)
+    } else if (i < 0) {
+      setHighlightedIndex(suggestions.length - 1)
+    } else {
+      setHighlightedIndex(i)
+    }
+  }
 
+  const handleKeyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
     switch (e.key) {
       case 'Enter':
         if (suggestions && suggestions.length > 0) {
@@ -89,10 +89,11 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
         }
         break
       case 'ArrowUp':
-        changeHighlightedIndex('up')
+        changeHighlightedIndex(highlightedIndex - 1)
+
         break
       case 'ArrowDown':
-        changeHighlightedIndex('down')
+        changeHighlightedIndex(highlightedIndex + 1)
         break
       case 'Escape':
         setSuggestions([])
@@ -118,15 +119,21 @@ export const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
         timeout={300}
         animation="zoom-in-top"
       >
-        <ul className="amt-suggestions-group">
+        <ul
+          onMouseLeave={() => changeHighlightedIndex(-1, true)}
+          className="amt-suggestions-group"
+        >
           {
             loading
               ? <Icon icon="spinner" theme="dark" spin />
               : suggestions && suggestions.length > 0 && suggestions.map((suggestion, i) => (
                 <li
+                  role="presentation"
                   key={i}
                   className={cname(i)}
+                  onMouseEnter={() => changeHighlightedIndex(i)}
                   onSelect={() => handleSelect(suggestion)}
+                  onClick={() => handleSelect(suggestion)}
                 >{
                     renderOption
                       ? renderOption(suggestion)
