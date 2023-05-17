@@ -5,6 +5,8 @@ import axios from 'axios'
 
 import { Button } from '@/components/Button/button'
 
+import { UploadList } from './uploadList'
+
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error'
 
 export interface UploadFile {
@@ -122,27 +124,35 @@ export const Upload: React.FC<UploadProps> = (props) => {
     uploadFiles(files)
   }
 
-  const renderProgress = () => (
-    <div>
-      {fileList && fileList.length >= 1
-        && Object.keys(fileList[0]).map((k: string) => (
-          <div key={k}>
-            <span>{k !== 'raw' && String(fileList[0][k as keyof typeof fileList[0]])}</span>
-            <hr />
-          </div>
-        ))}
-    </div>
-  )
+  const handleRemove = (file: UploadFile) => {
+    setFileList((prevList) => prevList.filter((item) => item.uid !== file.uid))
+  }
+
+  // const renderProgress = () => (
+  //   <div>
+  //     {fileList && fileList.length >= 1
+  //       && Object.keys(fileList[0]).map((k: string) => (
+  //         <div key={k}>
+  //           <span>{k !== 'raw' && String(fileList[0][k as keyof typeof fileList[0]])}</span>
+  //           <hr />
+  //         </div>
+  //       ))}
+  //   </div>
+  // )
 
   return (
     <div>
       <Button onClick={handleButtonClick}>Upload</Button>
-      {renderProgress()}
+      {/* {renderProgress()} */}
       <input
         ref={inputRef}
         type="file"
         style={{ display: 'none' }}
         onChange={handleFileChange}
+      />
+      <UploadList
+        fileList={fileList}
+        onRemove={handleRemove}
       />
     </div>
   )

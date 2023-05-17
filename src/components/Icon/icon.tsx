@@ -3,8 +3,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import type { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 export type ThemeProps = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'light' | 'dark'
 
@@ -14,7 +14,7 @@ export interface IconProps extends FontAwesomeIconProps {
    */
   icon: IconProp
   /** icon color */
-  theme: ThemeProps
+  theme?: ThemeProps
 }
 
 export const Icon: React.FC<IconProps> = (props) => {
@@ -28,4 +28,9 @@ export const Icon: React.FC<IconProps> = (props) => {
     <FontAwesomeIcon className={classes} {...rest} />
   )
 }
+
+Icon.defaultProps = {
+  theme: 'secondary',
+}
+
 export default Icon
