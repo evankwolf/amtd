@@ -19,20 +19,10 @@ export default UploadMeta
 export const Playground: Story = (args) => {
   const url = 'https://jsonplaceholder.typicode.com/posts/'
 
-  const checkFileSize = (file: File) => {
-    const kb = (file.size / 1024)
-    if (kb > 30) {
-      alert('holy no, size not ok')
-      return false
-    }
-    return true
-  }
-
   return (
     <Upload
       {...args}
       action={url}
-      beforeUpload={checkFileSize}
       onChange={action('change')}
       onProgress={action('progress')}
       onSuccess={action('success')}
