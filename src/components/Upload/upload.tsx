@@ -7,6 +7,8 @@ import { Button } from '@/components/Button/button'
 
 export interface UploadProps {
   action: string
+  beforeUpload?: (file: File) => boolean | Promise<File>
+  onChange?: (data: any, file: File) => void
   onProgress?: (percentage: number, file: File) => void
   onSuccess?: (data: any, file: File) => void
   onError?: (err: any, file: File) => void
@@ -15,6 +17,8 @@ export interface UploadProps {
 export const Upload: React.FC<UploadProps> = (props) => {
   const {
     action,
+    beforeUpload,
+    onChange,
     onError,
     onProgress,
     onSuccess,
@@ -44,12 +48,25 @@ export const Upload: React.FC<UploadProps> = (props) => {
       if (onSuccess) onSuccess(res, file)
     }).catch((err) => {
       if (onError) onError(err, file)
+    }).finally((...res) => {
+      if (onChange) onChange(res, file)
     })
   }
 
   const uploadFiles = (files: FileList) => {
     const list = Array.from(files)
-    list.forEach((file) => uploadFile(file))
+    list.forEach((file) => {
+      if (!beforeUpload) {
+        return uploadFile(file)
+      }
+      const res = beforeUpload(file)
+      if (res === true) {
+        return uploadFile(file)
+      }
+      if (res instanceof Promise) {
+        res.then(uploadFile)
+      }
+    })
   }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
