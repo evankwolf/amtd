@@ -21,12 +21,30 @@ export interface UploadFile {
 }
 
 export interface UploadProps {
+  /** request url */
   action: string
+  /** handle function before uploading.
+   * If the file does not meet certain requirements, returning false will immediately prevent uploading.
+   * @param {File} file
+   *
+   * @returns {boolean | Promise<File>}
+   */
   beforeUpload?: (file: File) => boolean | Promise<File>
   onChange?: (data: any, file: File) => void
   onProgress?: (percentage: number, file: File) => void
   onSuccess?: (data: any, file: File) => void
   onError?: (err: any, file: File) => void
+  /** custom request header */
+  header?: { [key: string]: any }
+  /** file name */
+  name?: string
+  /** attached data when sending request */
+  data?: { [key: string]: any }
+  withCredentials?: boolean
+  /** accepted file type */
+  accept?: string
+  /** if the component can upload multiple files at once */
+  multiple?: boolean
 }
 
 export const Upload: React.FC<UploadProps> = (props) => {
@@ -37,6 +55,12 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onError,
     onProgress,
     onSuccess,
+    header,
+    name,
+    data,
+    withCredentials,
+    accept,
+    multiple,
   } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -67,15 +91,23 @@ export const Upload: React.FC<UploadProps> = (props) => {
       response: null,
       error: null,
     }
-    setFileList([_file, ...fileList])
+
+    /** must use function instead of simple rest operators */
+    setFileList(((prevList) => ([_file, ...prevList])))
 
     const formData = new FormData()
-    formData.append(file.name, file)
-    setFileList([_file, ...fileList])
+    formData.append(name || 'file', file)
+    if (data) {
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key])
+      })
+    }
     axios.post(action, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        ...header,
       },
+      withCredentials,
       onUploadProgress: (e) => {
         const percentage = Math.round((e.loaded * 100) / e.total!) || 0
         if (percentage <= 100) {
@@ -149,6 +181,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
         type="file"
         style={{ display: 'none' }}
         onChange={handleFileChange}
+        accept={accept}
+        multiple={multiple}
       />
       <UploadList
         fileList={fileList}
