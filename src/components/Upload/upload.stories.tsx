@@ -30,3 +30,18 @@ export const Playground: Story = (args) => {
     />
   )
 }
+
+export const BiggerFileUpload: Story = (args) => {
+  const url = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
+
+  return (
+    <Upload
+      {...args}
+      action={url}
+      onChange={action('change')}
+      onProgress={action('progress')}
+      onSuccess={action('success')}
+      onError={action('error')}
+    />
+  )
+}
