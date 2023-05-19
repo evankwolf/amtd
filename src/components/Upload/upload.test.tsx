@@ -1,6 +1,6 @@
 import { fireEvent } from '@storybook/testing-library'
 import {
-  act, createEvent, render, waitFor,
+  act, render, waitFor,
 } from '@testing-library/react'
 import axios from 'axios'
 import {
@@ -92,14 +92,22 @@ describe('upload component test cases', () => {
     })
     expect(uploadArea).not.toHaveClass('is-dragover')
 
-    const mockDropEvent = createEvent.drop(uploadArea)
-    Object.defineProperty(mockDropEvent, 'dataTransfer', {
-      value: {
-        files: [testFile],
-      },
-    })
+    // const mockDropEvent = createEvent.drop(uploadArea)
+    // Object.defineProperty(mockDropEvent, 'dataTransfer', {
+    //   value: {
+    //     files: [testFile],
+    //   },
+    // })
+    // act(() => {
+    //   fireEvent(uploadArea, mockDropEvent)
+    // })
+
     act(() => {
-      fireEvent(uploadArea, mockDropEvent)
+      fireEvent.drop(uploadArea, {
+        dataTransfer: {
+          files: [testFile],
+        },
+      })
     })
 
     await waitFor(() => {
