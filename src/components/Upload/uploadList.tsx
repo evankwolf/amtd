@@ -1,5 +1,7 @@
 import React from 'react'
 
+import classNames from 'classnames'
+
 import type { UploadFile } from './upload'
 
 import { Icon } from '../Icon/icon'
@@ -15,6 +17,10 @@ export const UploadList: React.FC<UploadListProps> = (props) => {
     fileList,
     onRemove,
   } = props
+
+  const cname = (status: string) => classNames('file-status', {
+    [`file-status-${status}`]: status,
+  })
   console.log('firelist', fileList)
   return (
     <ul className="amt-upload-list">
@@ -24,7 +30,7 @@ export const UploadList: React.FC<UploadListProps> = (props) => {
             <Icon icon="file-alt" theme="secondary" />
             {item.name}
           </span>
-          <span className="file-status">
+          <span className={cname(item.status || '')}>
             {(item.status === 'uploading' || item.status === 'ready') && <Icon icon="spinner" spin theme="primary" />}
             {item.status === 'success' && <Icon icon="check-circle" theme="success" />}
             {item.status === 'error' && <Icon icon="times-circle" theme="danger" />}

@@ -32,7 +32,7 @@ export interface UploadProps {
    * @returns {boolean | Promise<File>}
    */
   beforeUpload?: (file: File) => boolean | Promise<File>
-  onChange?: (data: any, file: File) => void
+  onChange?: (file: File) => void
   onProgress?: (percentage: number, file: File) => void
   onSuccess?: (data: any, file: File) => void
   onError?: (err: any, file: File) => void
@@ -50,7 +50,7 @@ export interface UploadProps {
   /** axios request config */
   moreAxiosConf?: Partial<AxiosRequestConfig<FormData>>
   /** if files can be uploaded by drag event */
-  drag: boolean
+  drag?: boolean
   /** custom upload trigger */
   children?: React.ReactNode
 }
@@ -99,6 +99,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
       size: file.size,
       percent: 0,
       raw: file,
+      status: 'ready',
       response: null,
       error: null,
     }
@@ -132,15 +133,15 @@ export const Upload: React.FC<UploadProps> = (props) => {
     }).then((res) => {
       if (onSuccess) {
         updateFileInfo(_file, { percent: 100, status: 'success' })
-        onSuccess(res, file)
+        onSuccess(res.data, file)
       }
     }).catch((err) => {
       if (onError) {
         updateFileInfo(_file, { status: 'error' })
         onError(err, file)
       }
-    }).finally((...res) => {
-      if (onChange) onChange(res, file)
+    }).finally(() => {
+      if (onChange) onChange(file)
     })
   }
 
@@ -185,28 +186,34 @@ export const Upload: React.FC<UploadProps> = (props) => {
   // )
 
   return (
-    <div>
-      {
-        drag
-          ? (
-            <Dragger
-              onFile={uploadFiles}
-            >
-              {children || null}
-            </Dragger>
-          )
-          : children || <Button onClick={handleButtonClick}>Upload</Button>
+    <div className="amt-upload">
+      <div
+        role="presentation"
+        className="amt-upload-input"
+        onClick={handleButtonClick}
+      >
+        {
+          drag
+            ? (
+              <Dragger
+                onFile={uploadFiles}
+              >
+                {children || null}
+              </Dragger>
+            )
+            : children || <Button>Upload</Button>
 
-      }
-      {/* {renderProgress()} */}
-      <input
-        ref={inputRef}
-        type="file"
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        accept={accept}
-        multiple={multiple}
-      />
+        }
+        {/* {renderProgress()} */}
+        <input
+          ref={inputRef}
+          type="file"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+          accept={accept}
+          multiple={multiple}
+        />
+      </div>
       <UploadList
         fileList={fileList}
         onRemove={handleRemove}
