@@ -7,6 +7,8 @@ import { Button } from '@/components/Button/button'
 
 import { UploadList } from './uploadList'
 
+import type { AxiosRequestConfig } from 'axios'
+
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error'
 
 export interface UploadFile {
@@ -26,7 +28,6 @@ export interface UploadProps {
   /** handle function before uploading.
    * If the file does not meet certain requirements, returning false will immediately prevent uploading.
    * @param {File} file
-   *
    * @returns {boolean | Promise<File>}
    */
   beforeUpload?: (file: File) => boolean | Promise<File>
@@ -45,6 +46,8 @@ export interface UploadProps {
   accept?: string
   /** if the component can upload multiple files at once */
   multiple?: boolean
+  /** axios request config */
+  moreAxiosConf?: Partial<AxiosRequestConfig<FormData>>
 }
 
 export const Upload: React.FC<UploadProps> = (props) => {
@@ -61,6 +64,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     withCredentials,
     accept,
     multiple,
+    moreAxiosConf,
   } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -108,6 +112,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
         ...header,
       },
       withCredentials,
+      ...moreAxiosConf,
       onUploadProgress: (e) => {
         const percentage = Math.round((e.loaded * 100) / e.total!) || 0
         if (percentage <= 100) {
