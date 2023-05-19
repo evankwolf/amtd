@@ -5,7 +5,7 @@ import { Button } from './button'
 import type { Meta, StoryFn } from '@storybook/react'
 
 const buttonMeta: Meta<typeof Button> = {
-  title: 'Ch4 Button',
+  title: 'Button',
   component: Button,
   tags: ['autodocs'],
 }
