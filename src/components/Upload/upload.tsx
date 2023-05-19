@@ -36,6 +36,7 @@ export interface UploadProps {
   onProgress?: (percentage: number, file: File) => void
   onSuccess?: (data: any, file: File) => void
   onError?: (err: any, file: File) => void
+  onRemove?: (file: UploadFile) => void
   /** custom request header */
   header?: { [key: string]: any }
   /** file name */
@@ -63,6 +64,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onError,
     onProgress,
     onSuccess,
+    onRemove,
     header,
     name,
     data,
@@ -171,6 +173,9 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
   const handleRemove = (file: UploadFile) => {
     setFileList((prevList) => prevList.filter((item) => item.uid !== file.uid))
+    if (onRemove) {
+      onRemove(file)
+    }
   }
 
   // const renderProgress = () => (
