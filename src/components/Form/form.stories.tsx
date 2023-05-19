@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Form } from './form'
-import { FormItem } from './formItem'
 
 import type { Meta, StoryFn } from '@storybook/react'
 
@@ -29,17 +28,14 @@ export const BasicForm: Story = (args) => {
 
   return (
     <Form>
-      <Form.Item label="Username">
+      <Form.Item label="Username" name="username">
         <Input />
       </Form.Item>
-      <Form.Item label="Password">
+      <Form.Item label="Password" name="password">
         <Input type="password" />
       </Form.Item>
-      <Form.Item>
-        <Input placeholder="no-label" />
-      </Form.Item>
       <div className="agreement-section flex">
-        <Form.Item>
+        <Form.Item name="agreement">
           <input type="checkbox" />
         </Form.Item>
         <span className="agree-text">注册即代表你同意<a href="##">用户协议</a></span>

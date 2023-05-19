@@ -1,19 +1,27 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import classNames from 'classnames'
 
+import { FormContext } from './form'
+
 export interface FormItemProps {
+  name: string
   /** form item label */
   label?: string
   children?: React.ReactNode
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
-  const { label, children } = props
+  const { name, label, children } = props
+  const { dispatch } = useContext(FormContext)
 
   const rowClass = classNames('amt-row', {
     'amt-row-no-label': label === undefined,
   })
+
+  useEffect(() => {
+    dispatch({ type: 'addField', name, value: { label, name } })
+  }, [])
 
   return (
     <div className={rowClass}>
