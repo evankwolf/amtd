@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import { Button } from '@/components/Button/button'
 
+import { Dragger } from './dragger'
 import { UploadList } from './uploadList'
 
 import type { AxiosRequestConfig } from 'axios'
@@ -48,6 +49,10 @@ export interface UploadProps {
   multiple?: boolean
   /** axios request config */
   moreAxiosConf?: Partial<AxiosRequestConfig<FormData>>
+  /** if files can be uploaded by drag event */
+  drag: boolean
+  /** custom upload trigger */
+  children?: React.ReactNode
 }
 
 export const Upload: React.FC<UploadProps> = (props) => {
@@ -65,6 +70,8 @@ export const Upload: React.FC<UploadProps> = (props) => {
     accept,
     multiple,
     moreAxiosConf,
+    drag,
+    children,
   } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -179,7 +186,18 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
   return (
     <div>
-      <Button onClick={handleButtonClick}>Upload</Button>
+      {
+        drag
+          ? (
+            <Dragger
+              onFile={uploadFiles}
+            >
+              {children || null}
+            </Dragger>
+          )
+          : children || <Button onClick={handleButtonClick}>Upload</Button>
+
+      }
       {/* {renderProgress()} */}
       <input
         ref={inputRef}
