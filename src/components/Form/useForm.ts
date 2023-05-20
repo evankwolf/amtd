@@ -17,7 +17,7 @@ export interface FormState {
 }
 
 export interface FieldAction {
-  type: 'addField'
+  type: 'addField' | 'updateField'
   name: string
   value: any
 }
@@ -28,6 +28,11 @@ const fieldsReducer = (state: FieldState, action: FieldAction): FieldState => {
       return {
         ...state,
         [action.name]: { ...action.value },
+      }
+    case 'updateField':
+      return {
+        ...state,
+        [action.name]: { ...state[action.name], value: action.value },
       }
     default:
       return state

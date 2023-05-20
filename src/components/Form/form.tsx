@@ -8,7 +8,7 @@ type FormComponent = React.FC<FormProps> & {
   Item: typeof FormItem
 }
 
-export type IFormContext = Pick<ReturnType<typeof useForm>, 'dispatch'>
+export type IFormContext = Pick<ReturnType<typeof useForm>, 'dispatch' | 'fields'>
 
 export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   children?: React.ReactNode
@@ -19,7 +19,10 @@ export const FormContext = createContext<IFormContext>({} as IFormContext)
 export const Form: FormComponent = (props) => {
   const { name, children } = props
   const { form, fields, dispatch } = useForm()
-  const passedContext: IFormContext = useMemo(() => ({ dispatch }), [dispatch])
+  const passedContext: IFormContext = useMemo(() => ({
+    dispatch,
+    fields,
+  }), [dispatch, fields])
 
   return (
     <>
