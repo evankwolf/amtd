@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { FormContext } from './form'
 
 import type { SomeRequired } from '@/types/utils'
+import type { RuleItem } from 'async-validator'
 
 export interface FormItemProps {
   name: string
@@ -14,6 +15,8 @@ export interface FormItemProps {
   valuePropName?: string
   trigger?: string
   getValueFromEvent?: (e: any) => any
+  rules?: RuleItem[]
+  validateTrigger?: string
 }
 
 export const FormItem: React.FC<FormItemProps> = (props) => {
@@ -24,8 +27,16 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     valuePropName,
     trigger,
     getValueFromEvent,
-  } = props as SomeRequired<FormItemProps, 'getValueFromEvent' | 'valuePropName' | 'trigger'>
-  const { dispatch, fields, initialValues } = useContext(FormContext)
+    rules,
+    validateTrigger,
+  } = props as SomeRequired<FormItemProps, 'getValueFromEvent' | 'valuePropName' | 'trigger' | 'validateTrigger'>
+
+  const {
+    dispatch,
+    fields,
+    initialValues,
+    validateField,
+  } = useContext(FormContext)
 
   const rowClass = classNames('amt-row', {
     'amt-row-no-label': label === undefined,
@@ -33,7 +44,13 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
 
   useEffect(() => {
     const value = (initialValues && initialValues[name]) || ''
-    dispatch({ type: 'addField', name, value: { label, name, value } })
+    dispatch({
+      type: 'addField',
+      name,
+      value: {
+        label, name, value, rules,
+      },
+    })
   }, [])
 
   // get value from store
@@ -44,10 +61,17 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     console.log('new value', value)
     dispatch({ type: 'updateField', name, value })
   }
+  const onValueValidate = async () => {
+    await validateField(name)
+  }
+
   // manually create a list of attrs (including value & onChange)
   const controlProps: Record<string, any> = {}
   controlProps[valuePropName] = fieldValue
   controlProps[trigger] = onValueUpdate
+  if (rules) {
+    controlProps[validateTrigger] = onValueValidate
+  }
 
   // get the first el from children arr
   const childList = React.Children.toArray(children)
@@ -87,5 +111,6 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
 FormItem.defaultProps = {
   valuePropName: 'value',
   trigger: 'onChange',
+  validateTrigger: 'onBlur',
   getValueFromEvent: (e) => e.target.value,
 }

@@ -15,18 +15,21 @@ export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
 }
 
 export type IFormContext =
-  | Pick<ReturnType<typeof useForm>, 'dispatch' | 'fields'>
+  | Pick<ReturnType<typeof useForm>, 'dispatch' | 'fields' | 'validateField'>
   & Pick<FormProps, 'initialValues'>
 
 export const FormContext = createContext<IFormContext>({} as IFormContext)
 
 export const Form: FormComponent = (props) => {
   const { name, children, initialValues } = props
-  const { form, fields, dispatch } = useForm()
+  const {
+    form, fields, dispatch, validateField,
+  } = useForm()
   const passedContext: IFormContext = useMemo(() => ({
     dispatch,
     fields,
     initialValues,
+    validateField,
   }), [dispatch, fields])
 
   return (

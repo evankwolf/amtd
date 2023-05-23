@@ -31,10 +31,16 @@ export const BasicForm: Story = (args) => {
 
   return (
     <Form {...args} initialValues={initialValues}>
-      <Form.Item label="Username" name="username">
+      <Form.Item label="Username" name="username" rules={[{ type: 'email', required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item label="Password" name="password">
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[{
+          type: 'string', required: true, max: 8, min: 3,
+        }]}
+      >
         <Input type="password" />
       </Form.Item>
       <div className="agreement-section flex">
