@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { action } from '@storybook/addon-actions'
+
 import { Form } from './form'
 
 import type { CustomRule } from './useForm'
@@ -48,7 +50,12 @@ export const BasicForm: Story = (args) => {
   ]
 
   return (
-    <Form {...args} initialValues={initialValues}>
+    <Form
+      {...args}
+      initialValues={initialValues}
+      onFinish={action('onFinish')}
+      onFinishFailed={action('onFinishFailed')}
+    >
       <Form.Item label="Username" name="username" rules={[{ type: 'email', required: true }]}>
         <Input />
       </Form.Item>
