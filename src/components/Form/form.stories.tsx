@@ -5,6 +5,7 @@ import { Form } from './form'
 import type { CustomRule } from './useForm'
 import type { Meta, StoryFn } from '@storybook/react'
 
+import { Button } from '../Button/button'
 import { Input } from '../Input/input'
 
 type Story = StoryFn<typeof Form>
@@ -27,7 +28,7 @@ export default FormMeta
 export const BasicForm: Story = (args) => {
   const initialValues = {
     username: 'sekiro',
-    agreement: true,
+    agreement: false,
   }
 
   const confirmRules: CustomRule[] = [
@@ -68,10 +69,18 @@ export const BasicForm: Story = (args) => {
         <Input type="password" />
       </Form.Item>
       <div className="agreement-section flex">
-        <Form.Item name="agreement" valuePropName="checked" getValueFromEvent={(e) => e.target.checked}>
+        <Form.Item
+          name="agreement"
+          valuePropName="checked"
+          getValueFromEvent={(e) => e.target.checked}
+          rules={[{ type: 'enum', enum: [true], message: 'Please agree' }]}
+        >
           <input type="checkbox" />
         </Form.Item>
         <span className="agree-text">注册即代表你同意<a href="##">用户协议</a></span>
+      </div>
+      <div className="amt-form-submit-area">
+        <Button type="submit" btnType="primary">Login</Button>
       </div>
     </Form>
   )

@@ -25,7 +25,7 @@ export interface ValidateErrorType extends Error {
   fields: FormErrors
 }
 
-type FormErrors = Record<string, ValidateError[]>
+export type FormErrors = Record<string, ValidateError[]>
 
 export interface FormState {
   /** if all of the form item values are valid */
