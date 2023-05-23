@@ -4,14 +4,12 @@ import React, { useMemo, createContext } from 'react'
 import { FormItem } from './formItem'
 import { useForm } from './useForm'
 
-import type { FormErrors } from './useForm'
+import type { FormErrors, FormState } from './useForm'
 
-type FormComponent = React.FC<FormProps> & {
-  Item: typeof FormItem
-}
+export type RenderProps = (form: FormState) => React.ReactNode
 
-export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
-  children?: React.ReactNode
+export interface FormProps extends Omit<FormHTMLAttributes<HTMLFormElement>, 'children'> {
+  children?: React.ReactNode | RenderProps
   name?: string
   initialValues?: Record<string, any>
   /** validation success callback */
@@ -25,6 +23,10 @@ export type IFormContext =
   & Pick<FormProps, 'initialValues'>
 
 export const FormContext = createContext<IFormContext>({} as IFormContext)
+
+type FormComponent = React.FC<FormProps> & {
+  Item: typeof FormItem
+}
 
 export const Form: FormComponent = (props) => {
   const {
@@ -52,11 +54,18 @@ export const Form: FormComponent = (props) => {
     }
   }
 
+  let childrenNode: React.ReactNode
+  if (typeof children === 'function') {
+    childrenNode = children(form)
+  } else {
+    childrenNode = children
+  }
+
   return (
     <>
       <form name={name} className="amt-form" onSubmit={submitForm}>
         <FormContext.Provider value={passedContext}>
-          {children}
+          {childrenNode}
         </FormContext.Provider>
       </form>
       <div>

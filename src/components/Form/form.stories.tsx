@@ -41,10 +41,14 @@ export const BasicForm: Story = (args) => {
       asyncValidator(rule, value) {
         console.log('the value', getFieldValue('password'))
         console.log(value)
-        if (value !== getFieldValue('password')) {
-          return Promise.reject(new Error('Not the same'))
-        }
-        return Promise.resolve()
+        return new Promise((resolve, reject) => {
+          if (value !== getFieldValue('password')) {
+            reject(new Error('Not the same'))
+          }
+          setTimeout(() => {
+            resolve()
+          }, 1000)
+        })
       },
     }),
   ]
@@ -56,39 +60,47 @@ export const BasicForm: Story = (args) => {
       onFinish={action('onFinish')}
       onFinishFailed={action('onFinishFailed')}
     >
-      <Form.Item label="Username" name="username" rules={[{ type: 'email', required: true }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{
-          type: 'string', required: true, max: 8, min: 3,
-        }]}
-      >
-        <Input type="password" />
-      </Form.Item>
-      <Form.Item
-        label="Confirm Password"
-        name="confirmPwd"
-        rules={confirmRules}
-      >
-        <Input type="password" />
-      </Form.Item>
-      <div className="agreement-section flex">
-        <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          getValueFromEvent={(e) => e.target.checked}
-          rules={[{ type: 'enum', enum: [true], message: 'Please agree' }]}
-        >
-          <input type="checkbox" />
-        </Form.Item>
-        <span className="agree-text">注册即代表你同意<a href="##">用户协议</a></span>
-      </div>
-      <div className="amt-form-submit-area">
-        <Button type="submit" btnType="primary">Login</Button>
-      </div>
+      {({ isValid, isSubmitting }) => (
+        <>
+          <Form.Item label="Username" name="username" rules={[{ type: 'email', required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{
+              type: 'string', required: true, max: 8, min: 3,
+            }]}
+          >
+            <Input type="password" />
+          </Form.Item>
+          <Form.Item
+            label="Confirm Password"
+            name="confirmPwd"
+            rules={confirmRules}
+          >
+            <Input type="password" />
+          </Form.Item>
+          <div className="agreement-section flex">
+            <Form.Item
+              name="agreement"
+              valuePropName="checked"
+              getValueFromEvent={(e) => e.target.checked}
+              rules={[{ type: 'enum', enum: [true], message: 'Please agree' }]}
+            >
+              <input type="checkbox" />
+            </Form.Item>
+            <span className="agree-text">注册即代表你同意<a href="##">用户协议</a></span>
+          </div>
+          <div className="amt-form-submit-area">
+            <Button type="submit" btnType="primary">
+              Login
+              {isSubmitting ? ' Validating...' : ' '}
+              {isValid ? ' Info Valid' : ' Info not valid'}
+            </Button>
+          </div>
+        </>
+      )}
     </Form>
   )
 }
