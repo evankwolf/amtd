@@ -4,6 +4,8 @@ import classNames from 'classnames'
 
 import { FormContext } from './form'
 
+import type { SomeRequired } from '@/types/utils'
+
 export interface FormItemProps {
   name: string
   /** form item label */
@@ -22,28 +24,31 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     valuePropName,
     trigger,
     getValueFromEvent,
-  } = props
-  const { dispatch, fields } = useContext(FormContext)
+  } = props as SomeRequired<FormItemProps, 'getValueFromEvent' | 'valuePropName' | 'trigger'>
+  const { dispatch, fields, initialValues } = useContext(FormContext)
 
   const rowClass = classNames('amt-row', {
     'amt-row-no-label': label === undefined,
   })
 
   useEffect(() => {
-    dispatch({ type: 'addField', name, value: { label, name } })
+    const value = (initialValues && initialValues[name]) || ''
+    dispatch({ type: 'addField', name, value: { label, name, value } })
   }, [])
+
   // get value from store
   const fieldState = fields[name]
   const fieldValue = fieldState && fieldState.value
   const onValueUpdate = (e: any) => {
-    const value = getValueFromEvent && getValueFromEvent(e)
+    const value = getValueFromEvent(e)
     console.log('new value', value)
     dispatch({ type: 'updateField', name, value })
   }
   // manually create a list of attrs (including value & onChange)
   const controlProps: Record<string, any> = {}
-  controlProps[valuePropName!] = fieldValue
-  controlProps.onChange = onValueUpdate
+  controlProps[valuePropName] = fieldValue
+  controlProps[trigger] = onValueUpdate
+
   // get the first el from children arr
   const childList = React.Children.toArray(children)
   // children required

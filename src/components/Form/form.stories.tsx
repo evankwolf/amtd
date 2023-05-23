@@ -24,10 +24,13 @@ const FormMeta: Meta<typeof Form> = {
 export default FormMeta
 
 export const BasicForm: Story = (args) => {
-  const { children } = args
+  const initialValues = {
+    username: 'sekiro',
+    agreement: true,
+  }
 
   return (
-    <Form>
+    <Form {...args} initialValues={initialValues}>
       <Form.Item label="Username" name="username">
         <Input />
       </Form.Item>
