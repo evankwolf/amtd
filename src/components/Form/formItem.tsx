@@ -56,6 +56,15 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
   // get value from store
   const fieldState = fields[name]
   const fieldValue = fieldState && fieldState.value
+  const fieldErrors = fieldState && fieldState.errors
+  const isRequired = rules?.some((rule) => rule.required)
+  const hasError = fieldErrors && fieldErrors.length > 0
+  const labelClass = classNames({
+    'amt-form-item-required': isRequired,
+  })
+  const itemClass = classNames('amt-form-item-control', {
+    'amt-form-item-has-error': hasError,
+  })
   const onValueUpdate = (e: any) => {
     const value = getValueFromEvent(e)
     console.log('new value', value)
@@ -97,12 +106,22 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
   return (
     <div className={rowClass}>
       <div className="amt-form-item-label">
-        <label title={label} htmlFor="amt-form-item">
+        <label title={label} htmlFor="amt-form-item" className={labelClass}>
           {label || ''}
         </label>
       </div>
       <div className="amt-form-item">
-        {returnChildNode}
+        <div className={itemClass}>
+          {returnChildNode}
+        </div>
+        {
+          hasError
+          && (
+            <div className="amt-form-item-explain">
+              <span>{fieldErrors[0].message}</span>
+            </div>
+          )
+        }
       </div>
     </div>
   )
