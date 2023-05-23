@@ -4,10 +4,13 @@ import Schema from 'async-validator'
 
 import type { RuleItem, ValidateError } from 'async-validator'
 
+export type CustomRuleFunc = ({ getFieldValue }: any) => RuleItem
+export type CustomRule = RuleItem | CustomRuleFunc
+
 export interface FieldDetail {
   name: string
   value: string
-  rules: RuleItem[]
+  rules: CustomRule[]
   isValid: boolean
   errors: ValidateError[]
 }
@@ -54,10 +57,19 @@ export const useForm = () => {
   const [form, setForm] = useState<FormState>({ isValid: true })
   const [fields, dispatch] = useReducer(fieldsReducer, {})
 
+  const getFieldValue = (key: string) => fields[key] && fields[key].value
+  const transformRules = (rules: CustomRule[]) => rules.map((rule) => {
+    if (typeof rule === 'function') {
+      const calledRule = rule({ getFieldValue })
+      return calledRule
+    }
+    return rule
+  })
   const validateField = async (name: string) => {
     const { value, rules } = fields[name]
+    const handledRules = transformRules(rules)
     const descriptor = {
-      [name]: rules,
+      [name]: handledRules,
     }
     const valueMap = {
       [name]: value,

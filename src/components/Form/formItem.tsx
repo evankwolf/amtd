@@ -4,8 +4,8 @@ import classNames from 'classnames'
 
 import { FormContext } from './form'
 
+import type { CustomRule } from './useForm'
 import type { SomeRequired } from '@/types/utils'
-import type { RuleItem } from 'async-validator'
 
 export interface FormItemProps {
   name: string
@@ -15,7 +15,7 @@ export interface FormItemProps {
   valuePropName?: string
   trigger?: string
   getValueFromEvent?: (e: any) => any
-  rules?: RuleItem[]
+  rules?: CustomRule[]
   validateTrigger?: string
 }
 
@@ -57,7 +57,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
   const fieldState = fields[name]
   const fieldValue = fieldState && fieldState.value
   const fieldErrors = fieldState && fieldState.errors
-  const isRequired = rules?.some((rule) => rule.required)
+  const isRequired = rules?.some((rule) => (typeof rule !== 'function') && rule.required)
   const hasError = fieldErrors && fieldErrors.length > 0
   const labelClass = classNames({
     'amt-form-item-required': isRequired,

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Form } from './form'
 
+import type { CustomRule } from './useForm'
 import type { Meta, StoryFn } from '@storybook/react'
 
 import { Input } from '../Input/input'
@@ -29,6 +30,22 @@ export const BasicForm: Story = (args) => {
     agreement: true,
   }
 
+  const confirmRules: CustomRule[] = [
+    {
+      type: 'string', required: true, min: 3, max: 8,
+    },
+    ({ getFieldValue }) => ({
+      asyncValidator(rule, value) {
+        console.log('the value', getFieldValue('password'))
+        console.log(value)
+        if (value !== getFieldValue('password')) {
+          return Promise.reject(new Error('Not the same'))
+        }
+        return Promise.resolve()
+      },
+    }),
+  ]
+
   return (
     <Form {...args} initialValues={initialValues}>
       <Form.Item label="Username" name="username" rules={[{ type: 'email', required: true }]}>
@@ -40,6 +57,13 @@ export const BasicForm: Story = (args) => {
         rules={[{
           type: 'string', required: true, max: 8, min: 3,
         }]}
+      >
+        <Input type="password" />
+      </Form.Item>
+      <Form.Item
+        label="Confirm Password"
+        name="confirmPwd"
+        rules={confirmRules}
       >
         <Input type="password" />
       </Form.Item>
