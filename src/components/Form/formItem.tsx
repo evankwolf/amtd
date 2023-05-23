@@ -48,7 +48,11 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
       type: 'addField',
       name,
       value: {
-        label, name, value, rules,
+        label,
+        name,
+        value,
+        rules: rules || [],
+        fieldErrors: [],
       },
     })
   }, [])
@@ -59,6 +63,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
   const fieldErrors = fieldState && fieldState.errors
   const isRequired = rules?.some((rule) => (typeof rule !== 'function') && rule.required)
   const hasError = fieldErrors && fieldErrors.length > 0
+
   const labelClass = classNames({
     'amt-form-item-required': isRequired,
   })
