@@ -35,7 +35,7 @@ export const BasicForm: Story = (args) => {
         <Input type="password" />
       </Form.Item>
       <div className="agreement-section flex">
-        <Form.Item name="agreement">
+        <Form.Item name="agreement" valuePropName="checked" getValueFromEvent={(e) => e.target.checked}>
           <input type="checkbox" />
         </Form.Item>
         <span className="agree-text">注册即代表你同意<a href="##">用户协议</a></span>
