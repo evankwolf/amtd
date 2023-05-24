@@ -66,11 +66,27 @@ const fieldsReducer = (state: FieldState, action: FieldAction): FieldState => {
   }
 }
 
-export const useForm = () => {
+export const useForm = (initialValues?: Record<string, any>) => {
   const [form, setForm] = useState<FormState>({ isValid: true, isSubmitting: false, errors: {} })
   const [fields, dispatch] = useReducer(fieldsReducer, {})
 
   const getFieldValue = (key: string) => fields[key] && fields[key].value
+  /** { username: value, password: value } */
+  const getFieldsValue = () => mapValues(fields, (item) => item.value)
+  const setFieldValue = (name: string, value: any) => {
+    if (fields[name]) {
+      dispatch({ type: 'updateField', name, value })
+    }
+  }
+  const resetFields = () => {
+    if (initialValues) {
+      each(initialValues, (value, name) => {
+        if (fields[name]) {
+          dispatch({ type: 'updateField', name, value })
+        }
+      })
+    }
+  }
   const transformRules = (rules: CustomRule[]) => rules.map((rule) => {
     if (typeof rule === 'function') {
       const calledRule = rule({ getFieldValue })
@@ -147,5 +163,9 @@ export const useForm = () => {
     form,
     validateField,
     validateAllFields,
+    getFieldsValue,
+    getFieldValue,
+    setFieldValue,
+    resetFields,
   }
 }

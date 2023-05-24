@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 import { action } from '@storybook/addon-actions'
 
 import { Form } from './form'
 
+import type { IFormRef } from './form'
 import type { CustomRule } from './useForm'
 import type { Meta, StoryFn } from '@storybook/react'
 
@@ -28,8 +29,17 @@ const FormMeta: Meta<typeof Form> = {
 export default FormMeta
 
 export const BasicForm: Story = (args) => {
+  const ref = useRef<IFormRef>(null)
+  const resetAll = () => {
+    console.log('getVal', ref.current?.getFieldValue('username'))
+    console.log('getAllVal', ref.current?.getFieldsValue)
+    ref.current?.resetFields()
+  }
+
   const initialValues = {
     username: 'sekiro',
+    password: '',
+    confirmPwd: '',
     agreement: false,
   }
 
@@ -59,6 +69,7 @@ export const BasicForm: Story = (args) => {
       initialValues={initialValues}
       onFinish={action('onFinish')}
       onFinishFailed={action('onFinishFailed')}
+      ref={ref}
     >
       {({ isValid, isSubmitting }) => (
         <>
@@ -88,7 +99,7 @@ export const BasicForm: Story = (args) => {
               getValueFromEvent={(e) => e.target.checked}
               rules={[{ type: 'enum', enum: [true], message: 'Please agree' }]}
             >
-              <input type="checkbox" />
+              <Input type="checkbox" />
             </Form.Item>
             <span className="agree-text">注册即代表你同意<a href="##">用户协议</a></span>
           </div>
@@ -97,6 +108,9 @@ export const BasicForm: Story = (args) => {
               Login
               {isSubmitting ? ' Validating...' : ' '}
               {isValid ? ' Info Valid' : ' Info not valid'}
+            </Button>
+            <Button onClick={resetAll}>
+              Reset
             </Button>
           </div>
         </>
