@@ -128,6 +128,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     // 并不是所有点击事件都要绑定key事件
 
+    'import/no-named-as-default': 0,
     'import/extensions': 0,
     'import/no-cycle': 0,
     'import/no-unresolved': 0,

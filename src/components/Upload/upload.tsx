@@ -226,3 +226,5 @@ export const Upload: React.FC<UploadProps> = (props) => {
     </div>
   )
 }
+
+export default Upload

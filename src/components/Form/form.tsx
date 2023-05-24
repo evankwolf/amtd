@@ -89,3 +89,5 @@ const InternalForm: React.ForwardRefRenderFunction<IFormRef, FormProps> = (props
 export const Form = forwardRef<IFormRef, FormProps>(InternalForm) as FormComponent
 
 Form.Item = FormItem
+
+export default Form
