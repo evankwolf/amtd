@@ -2,6 +2,8 @@ import React, { createContext, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
+import MenuItem from './menuItem'
+
 import type { MenuItemProps } from './menuItem'
 
 type MenuMode = 'horizontal' | 'vertical'
@@ -61,7 +63,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
   const renderChildren = () => React.Children.map(children, (child, ii: number) => {
     const childEl = child as React.FunctionComponentElement<MenuItemProps>
     const { props: childProps, type } = childEl
-    if (type.name === 'MenuItem' || type.name === 'SubMenu') {
+    if (type === MenuItem) {
       return React.cloneElement(childEl, { index: childProps.index || String(ii) })
     }
     throw new Error('Error: Menu has at least one child which is not a MenuItem')
