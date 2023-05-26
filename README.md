@@ -12,18 +12,23 @@ My personal ant-design. This is only used for practice.
 
 ## Usage
 
-```bash
-pnpm install
-```
+```tsx
+import React, { useState } from 'react'
+import { Button } from '@kwolfsanta/amtd'
+import '@kwolfsanta/amtd/dist/es/style.css'
 
-```bash
-pnpm run dev
-```
+const HelloWorld = () => {
+  const [count, setCount] = useState(0)
 
-```bash
-pnpm run build
-```
+  const handleClick = () => {
+    setCount(count + 1)
+  }
 
-```bash
-pnpm run test
+  return (
+    <div>
+      <Button btnType="primary" onClick={handleClick}>Current count: {count}</Button>
+    </div>
+  )
+}
+
 ```

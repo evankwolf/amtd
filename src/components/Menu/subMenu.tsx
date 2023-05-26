@@ -7,7 +7,7 @@ import { MenuCtx } from './menu'
 
 import type { MenuItemProps } from './menuItem'
 
-import Icon from '../Icon/icon'
+import { Icon } from '../Icon/icon'
 import Transition from '../Transition/transition'
 
 export interface SubMenuProps {

@@ -12,7 +12,19 @@ import MenuItem from './menuItem'
 import SubMenu from './subMenu'
 
 import type { MenuProps } from './menu'
+import type { IconProps } from '../Icon/icon'
 import type { RenderResult } from '@testing-library/react'
+
+vi.mock('../Icon/icon', async () => ({
+  Icon: (props: IconProps) => (
+    <svg
+      role="presentation"
+      // onClick is used to imitate remove event
+      onClick={props.onClick}
+    >
+      {props.icon as string}
+    </svg>),
+}))
 
 const defaultProps: MenuProps = {
   defaultIndex: '0',
