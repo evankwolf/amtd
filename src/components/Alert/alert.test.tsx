@@ -1,11 +1,14 @@
 import React from 'react'
 
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { describe, expect, vi } from 'vitest'
+import {
+  describe, expect, vi, it,
+} from 'vitest'
 
 import { Alert } from './alert'
 
 import type { AlertProps } from './alert'
+import type { IconProps } from '../Icon/icon'
 
 const defaultProps: AlertProps = {
   onClose: vi.fn(),
@@ -15,6 +18,17 @@ const createEl = (props: AlertProps, text?: string) => {
   const { container } = render(<Alert {...(props || {})}>{text || 'Nice'}</Alert>)
   return container.querySelector('.alert')! as HTMLElement
 }
+
+vi.mock('../Icon/icon', async () => ({
+  Icon: (props: IconProps) => (
+    <svg
+      role="presentation"
+      // onClick is used to imitate remove event
+      onClick={props.onClick}
+    >
+      {props.icon as string}
+    </svg>),
+}))
 
 describe('alert component test case', () => {
   it('should render correct alert style', async () => {

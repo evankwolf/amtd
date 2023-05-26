@@ -1,7 +1,9 @@
 import React from 'react'
 
 import { fireEvent, render } from '@testing-library/react'
-import { describe, expect, vi } from 'vitest'
+import {
+  describe, expect, vi, it,
+} from 'vitest'
 
 import Button from './button'
 

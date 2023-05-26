@@ -11,3 +11,5 @@ export const useCountStore = create<ICountState>()((set) => ({
   increment: (by) => set((state) => ({ count: state.count + (by || 1) })),
   decrement: (by) => set((state) => ({ count: state.count - (by || 1) })),
 }))
+
+export default useCountStore

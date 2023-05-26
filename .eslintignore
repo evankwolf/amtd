@@ -1,3 +1,4 @@
 *.json
 *.md
 *.css
+src/stories/*

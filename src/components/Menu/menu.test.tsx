@@ -4,7 +4,7 @@ import {
   cleanup, fireEvent, render, waitFor,
 } from '@testing-library/react'
 import {
-  beforeEach, describe, it, vi,
+  beforeEach, describe, it, vi, expect,
 } from 'vitest'
 
 import { Menu } from './menu'

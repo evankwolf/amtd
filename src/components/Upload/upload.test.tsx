@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react'
 import axios from 'axios'
 import {
-  beforeEach, describe, it, vi,
+  beforeEach, describe, it, vi, expect,
 } from 'vitest'
 
 import { Upload } from './upload'

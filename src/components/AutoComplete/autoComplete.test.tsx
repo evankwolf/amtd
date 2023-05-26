@@ -4,7 +4,9 @@ import {
   render, fireEvent, waitFor, cleanup,
 } from '@testing-library/react'
 import { config } from 'react-transition-group'
-import { vi, describe, it } from 'vitest'
+import {
+  vi, describe, it, expect, beforeEach,
+} from 'vitest'
 
 import { AutoComplete } from './autoComplete'
 
