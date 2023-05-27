@@ -1,6 +1,8 @@
 ## Introduction
 My personal ant-design. This is only used for practice.
 
+You can check the docs [here](https://evankwolf.github.io/amtd/)
+
 ## Tech Stack
 - React
 - Vite
@@ -10,10 +12,16 @@ My personal ant-design. This is only used for practice.
 - [Unocss](https://unocss.dev/) - The instant on-demand atomic CSS engine.
 - Husky
 
+## Install
+```bash
+pnpm install @kwolfsanta/amtd
+```
+
 ## Usage
 
 ```tsx
 import React, { useState } from 'react'
+
 import { Button } from '@kwolfsanta/amtd'
 import '@kwolfsanta/amtd/dist/es/style.css'
 

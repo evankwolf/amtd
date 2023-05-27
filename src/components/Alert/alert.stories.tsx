@@ -14,19 +14,18 @@ const AlertMeta: Meta<typeof Alert> = {
 
 export default AlertMeta
 
-export const Template: Story = (args) => (
+const Template: Story = (args) => (
   <Alert {...args}>This is an alert</Alert>
 )
-Template.storyName = 'Playground'
-
-export const SuccessType: Story = Template.bind({})
-SuccessType.args = {
-  type: 'success',
-}
 
 export const DefaultType: Story = Template.bind({})
 DefaultType.args = {
   type: 'default',
+}
+
+export const SuccessType: Story = Template.bind({})
+SuccessType.args = {
+  type: 'success',
 }
 
 export const DangerType: Story = Template.bind({})

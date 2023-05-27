@@ -67,7 +67,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
     if (type === MenuItem || type === SubMenu) {
       return React.cloneElement(childEl, { index: childProps.index || String(ii) })
     }
-    throw new Error('Error: Menu has at least one child which is not a MenuItem')
+    throw new Error('Error: Menu has at least one child which is not a MenuItem or SubMenu')
   })
 
   return (

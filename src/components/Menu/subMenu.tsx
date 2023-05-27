@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react'
 import classNames from 'classnames'
 
 import { MenuCtx } from './menu'
+import MenuItem from './menuItem'
 
 import type { MenuItemProps } from './menuItem'
 
@@ -61,7 +62,7 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
     })
     const childrenComponent = React.Children.map(props.children, (child, i) => {
       const childEl = child as FunctionComponentElement<MenuItemProps>
-      if (childEl.type.name !== 'MenuItem') {
+      if (childEl.type !== MenuItem) {
         throw new Error('Error: SubMenu has at least one child which is not a MenuItem component')
       }
       return React.cloneElement(childEl, {

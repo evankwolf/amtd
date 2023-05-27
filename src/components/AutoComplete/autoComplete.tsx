@@ -19,6 +19,11 @@ interface DataSourceObject {
 export type DataSourceType<T = {}> = T & DataSourceObject
 
 export interface AutoCompleteProps extends Omit<InputProps, 'onSelect'> {
+  /**
+   * @function fetchSuggestions
+   *
+   * @param {string} keyword input value
+   */
   fetchSuggestions: (keyword: string) => DataSourceType[] | Promise<DataSourceType[]>
   onSelect: (suggestion: DataSourceType) => void
   renderOption?: (data: DataSourceType) => React.ReactNode
