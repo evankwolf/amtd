@@ -34,9 +34,9 @@
     "test": "vitest",
     "test-nowatch": "cross-env CI=true vitest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "storybook:build": "storybook build",
     "predeploy": "pnpm run build-storybook",
-    "deploy-storybook": "gh-pages -d storybook-static",
+    "storybook:publish": "pnpm storybook:build && cd . >storybook-static/.nojekyll && gh-pages -d storybook-static -t true",
     "prepublish": "pnpm run test-nowatch && pnpm run lint && pnpm run build"
   },
   "dependencies": {
