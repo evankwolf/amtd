@@ -4,7 +4,7 @@ import React from 'react'
 import type { ThemeProps } from '../Icon/icon'
 
 export interface ProgressProps {
-  /** integer percent
+  /** Integer percent
    * e.g.
    *
    * 98 ✔
@@ -12,13 +12,13 @@ export interface ProgressProps {
    * 0.98 ❌
    */
   percent: number;
-  /** height of the progress bar */
+  /** Height of the progress bar */
   strokeHeight?: number;
-  /** set true if you want to show the percentage text */
+  /** Set true if you want to show the percentage text */
   showText?: boolean;
-  /** custom styles */
+  /** Custom styles */
   styles?: React.CSSProperties;
-  /** bar color */
+  /** Bar color */
   theme?: ThemeProps;
 }
 

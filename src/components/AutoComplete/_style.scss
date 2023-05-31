@@ -1,6 +1,6 @@
 .amt-auto-complete {
   position: relative;
-  display: inline-block;
+  z-index: 30;
 
   .item-highlighted {
     background-color: $primary;
@@ -41,7 +41,7 @@
     }
 
     &:hover {
-      color: $menu-item-active-color !important;
+      color: $white !important;
     }
   }
 }

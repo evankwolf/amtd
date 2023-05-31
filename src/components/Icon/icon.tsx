@@ -10,7 +10,11 @@ export type ThemeProps = 'primary' | 'secondary' | 'success' | 'info' | 'warning
 
 export interface IconProps extends FontAwesomeIconProps {
   /** font awesome icon name
+   *
    * e.g. `arrow-down`
+   *
+   * get more from [here](https://fontawesome.com/search)
+   *
    */
   icon: IconProp
   /** icon color */

@@ -10,6 +10,7 @@ interface IBaseButtonProps {
   className?: string
   disabled?: boolean
   size?: ButtonSize
+  /** Button color type */
   btnType?: ButtonType
   children: React.ReactNode
   href?: string

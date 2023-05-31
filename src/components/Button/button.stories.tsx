@@ -4,18 +4,17 @@ import { Button } from './button'
 
 import type { Meta, StoryFn } from '@storybook/react'
 
+/**
+ * A basic button component.
+ */
 const buttonMeta: Meta<typeof Button> = {
-  title: 'Button',
+  title: 'General/Button',
   component: Button,
   tags: ['autodocs'],
 }
 
 export default buttonMeta
 type Story = StoryFn<typeof Button>;
-
-export const Playground: Story = (args) => (
-  <Button {...args}>Playground</Button>
-)
 
 const Template: Story = (args) => (
   <Button {...args} />

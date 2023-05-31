@@ -1,19 +1,19 @@
 .amt-input-wrapper {
   display: flex;
   width: 100%;
-  margin-bottom: 30px;
   position: relative;
 
+  &.is-disabled .amt-input-group {
+    background-color: $input-disabled-bg;
+    border-color: $input-disabled-border-color;
+    // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
+    opacity: 1;
+  }
+
   .icon-wrapper {
-    position: absolute;
-    height: 100%;
-    width: 35px;
     justify-content: center;
-    color: $input-color;
-    right: 0;
+    left: 0;
     top: 0;
-    display: flex;
-    align-items: center;
 
     svg {
       color: $input-placeholder-color;
@@ -21,12 +21,10 @@
   }
 }
 
-.icon-wrapper+.amt-input-inner {
-  padding-right: 35px;
-}
-
-.amt-input-inner {
+.amt-input-group {
+  display: flex;
   width: 100%;
+  align-items: center;
   padding: $input-padding-y $input-padding-x;
   font-family: $input-font-family;
   font-size: $input-font-size;
@@ -43,7 +41,7 @@
   box-shadow: $input-box-shadow;
   transition: $input-transition;
 
-  &:focus {
+  &:focus-within {
     color: $input-focus-color;
     background-color: $input-focus-bg;
     border-color: $input-focus-border-color;
@@ -65,6 +63,15 @@
     // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
     opacity: 1;
   }
+}
+
+.icon-wrapper+.amt-input-inner {
+  padding-right: 35px;
+}
+
+.amt-input-inner {
+  outline: none;
+  border: none;
 }
 
 .amt-input-group-prepend,
@@ -89,42 +96,78 @@
   border: 0;
 }
 
-.input-group>.amt-input-group-prepend,
-.input-group.input-group-append>.amt-input-inner {
-  @include border-right-radius(0);
+.input-with-prepend .amt-input-group {
+  border-left: 0;
 }
 
-.input-group>.amt-input-group-append,
-.input-group.input-group-prepend>.amt-input-inner {
-  @include border-left-radius(0);
+.input-with-append .amt-input-group {
+  border-right: 0;
 }
 
-.input-size-xs .amt-input-inner {
+.amt-input-group-prepend,
+.input-with-append .amt-input-group {
+  @include border-right-radius(0 !important);
+}
+
+.amt-input-group-append,
+.input-with-prepend .amt-input-group {
+  @include border-left-radius(0 !important);
+}
+
+.input-size-xs .amt-input-group {
+  .amt-input-inner {
+    padding-left: 4px;
+  }
+
   padding: $input-padding-y-xs $input-padding-x-xs;
   font-size: $input-font-size-xs;
   border-radius: $input-border-radius-xs;
 }
 
-.input-size-sm .amt-input-inner {
-  padding: $input-padding-y-sm $input-padding-x-sm;
-  font-size: $input-font-size-sm;
-  border-radius: $input-border-radius-sm;
+.input-size-sm {
+  .amt-input-inner {
+    padding-left: 6px;
+  }
+
+  .amt-input-group {
+    padding: $input-padding-y-sm $input-padding-x-sm;
+    font-size: $input-font-size-sm;
+    border-radius: $input-border-radius-sm;
+  }
 }
 
-.input-size-md .amt-input-inner {
-  padding: $input-padding-y-md $input-padding-x-md;
-  font-size: $input-font-size-md;
-  border-radius: $input-border-radius-md;
+.input-size-md {
+  .amt-input-inner {
+    padding-left: 8px;
+  }
+
+  .amt-input-group {
+    padding: $input-padding-y-md $input-padding-x-md;
+    font-size: $input-font-size-md;
+    border-radius: $input-border-radius-md;
+  }
 }
 
-.input-size-lg .amt-input-inner {
-  padding: $input-padding-y-lg $input-padding-x-lg;
-  font-size: $input-font-size-lg;
-  border-radius: $input-border-radius-lg;
+.input-size-lg {
+  .amt-input-inner {
+    padding-left: 10px;
+  }
+
+  .amt-input-group {
+    padding: $input-padding-y-lg $input-padding-x-lg;
+    font-size: $input-font-size-lg;
+    border-radius: $input-border-radius-lg;
+  }
 }
 
-.input-size-xl .amt-input-inner {
-  padding: $input-padding-y-xl $input-padding-x-xl;
-  font-size: $input-font-size-xl;
-  border-radius: $input-border-radius-xl;
+.input-size-xl {
+  .amt-input-inner {
+    padding-left: 12px;
+  }
+
+  .amt-input-group {
+    padding: $input-padding-y-xl $input-padding-x-xl;
+    font-size: $input-font-size-xl;
+    border-radius: $input-border-radius-xl;
+  }
 }

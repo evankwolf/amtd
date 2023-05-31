@@ -32,25 +32,28 @@ export const Input: React.FC<InputProps> = (props) => {
   } = props
 
   const classes = classNames('amt-input-wrapper', className, {
-    [`input-size-${size}`]: size,
+    [`input-size-${size || 'md'}`]: size || 'md',
     'is-disabled': disabled,
+    'input-with-prepend': prepend,
+    'input-with-append': append,
   })
 
   return (
     <div className={classes}>
       {prepend && <div className="amt-input-group-prepend">{prepend}</div>}
-      <div className="input-group">
+      <div className="amt-input-group" tabIndex={-1}>
+        {
+          icon
+            ? <Icon className="input-icon icon-wrapper" theme={iconTheme || 'info'} icon={icon} />
+            : null
+        }
         <input
           className="amt-input-inner"
           disabled={disabled}
           {...rest}
         />
-        {
-          icon ? <Icon className="input-icon icon-wrapper" theme={iconTheme || 'info'} icon={icon} />
-            : null
-        }
       </div>
-      {append && <div className="viking-input-group-append">{append}</div>}
+      {append && <div className="amt-input-group-append">{append}</div>}
     </div>
   )
 }

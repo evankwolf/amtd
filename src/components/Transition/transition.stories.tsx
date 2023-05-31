@@ -9,10 +9,15 @@ import { Button } from '../Button/button'
 
 type Story = StoryFn<typeof Transition>
 
+/**
+ * This component is based on the `CSSTransition` component from
+ * [React Transition Group](https://reactcommunity.org/react-transition-group/). So you can
+ * pass almost the same API to this component as to `CSSTransition`
+ *
+ */
 const TransitionMeta: Meta<typeof Transition> = {
-  title: 'Transition',
+  title: 'General/Transition',
   component: Transition,
-  tags: ['autodocs'],
 
 }
 
@@ -34,7 +39,6 @@ export const Playground: Story = (args) => {
       >
         <Alert header="Header">
           This Alert is used for Transition.
-
         </Alert>
       </Transition>
     </>

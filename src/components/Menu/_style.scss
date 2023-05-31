@@ -36,6 +36,11 @@
     .submenu-title {
       display: flex;
       align-items: center;
+
+      &.is-active {
+        color: $menu-item-active-color;
+
+      }
     }
 
     .arrow-icon {
@@ -96,8 +101,7 @@
     position: absolute;
     background: $white;
     z-index: 100;
-    top: calc(100% + 8px);
-    left: 0;
+    margin-top: 20px;
     border: $menu-border-width solid $menu-border-color;
     box-shadow: $submenu-box-shadow;
   }

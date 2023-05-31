@@ -54,8 +54,6 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
     onMouseLeave: (e: React.MouseEvent) => { handleMouse(e, false) },
   } : {}
 
-  const events = { ...clickEvents, ...hoverEvents }
-
   const renderChildren = () => {
     const subMenuClasses = classNames('submenu', {
       'menu-opened': menuOpened,
@@ -84,8 +82,8 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
   }
 
   return (
-    <li key={props.index} className={classes} {...events}>
-      <div className="submenu-title">
+    <li key={props.index} className={classes} {...hoverEvents}>
+      <div className="submenu-title" {...clickEvents} role="presentation">
         {props.title}
         <Icon icon="arrow-down" theme="dark" className="arrow-icon" size="xs" />
       </div>

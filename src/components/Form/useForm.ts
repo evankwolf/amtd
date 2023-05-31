@@ -116,7 +116,7 @@ export const useForm = (initialValues?: Record<string, any>) => {
       console.log('fields', err.fields)
       errors = err.errors
     } finally {
-      console.log('errors', isValid)
+      console.log('Is it valid? ', isValid)
       dispatch({ type: 'updateValidateResult', name, value: { isValid, errors } })
     }
   }

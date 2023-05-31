@@ -36,6 +36,7 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
     fields,
     initialValues,
     validateField,
+    onValueChange,
   } = useContext(FormContext)
 
   const rowClass = classNames('amt-row', {
@@ -72,8 +73,10 @@ export const FormItem: React.FC<FormItemProps> = (props) => {
   })
   const onValueUpdate = (e: any) => {
     const value = getValueFromEvent(e)
-    console.log('new value', value)
     dispatch({ type: 'updateField', name, value })
+    if (onValueChange) {
+      onValueChange(fields)
+    }
   }
   const onValueValidate = async () => {
     await validateField(name)

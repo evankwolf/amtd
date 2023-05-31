@@ -13,8 +13,16 @@ import { Input } from '../Input/input'
 
 type Story = StoryFn<typeof Form>
 
+/**
+ * Form Component. It offers validation function which is based on [AsyncValidator](https://github.com/yiminghe/async-validator)
+ *
+ * It also offers `onValueChange` callback for you to do something while values change.
+ *
+ * `onFinish` will be called when you click submit button and all fields are valid.
+ *
+ */
 const FormMeta: Meta<typeof Form> = {
-  title: 'Form',
+  title: 'DataInput/Form',
   component: Form,
   tags: ['autodocs'],
   decorators: [
@@ -28,7 +36,78 @@ const FormMeta: Meta<typeof Form> = {
 
 export default FormMeta
 
-export const BasicForm: Story = (args) => {
+export const BasicForm: Story = () => {
+  const initialValues = {
+    username: 'sekiro',
+    password: '',
+  }
+
+  return (
+    <Form
+      initialValues={initialValues}
+      onFinish={action('onFinish')}
+    >
+      <Form.Item
+        name="username"
+        label="Username"
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label="Password"
+      >
+        <Input />
+      </Form.Item>
+      <Button type="submit" btnType="primary">Submit</Button>
+    </Form>
+  )
+}
+
+export const FieldWithRule: Story = () => {
+  const initialValues = {
+    username: 'sekiro',
+    password: '',
+    age: 0,
+  }
+
+  return (
+    <Form
+      initialValues={initialValues}
+      onFinish={action('onFinish')}
+      onFinishFailed={action('onFinishFailed')}
+    >
+      <Form.Item
+        name="username"
+        label="Username"
+        rules={[
+          { required: true, type: 'email' },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          { required: true },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="age"
+        label="Age"
+      >
+        <Input type="number" />
+      </Form.Item>
+
+      <Button type="submit" btnType="primary">Submit</Button>
+    </Form>
+  )
+}
+
+export const CustomRules: Story = (args) => {
   const ref = useRef<IFormRef>(null)
   const resetAll = () => {
     console.log('getVal', ref.current?.getFieldValue('username'))
@@ -48,6 +127,7 @@ export const BasicForm: Story = (args) => {
       type: 'string', required: true, min: 3, max: 8,
     },
     ({ getFieldValue }) => ({
+      /** imitate async validate */
       asyncValidator(rule, value) {
         console.log('the value', getFieldValue('password'))
         console.log(value)
@@ -67,6 +147,7 @@ export const BasicForm: Story = (args) => {
     <Form
       {...args}
       initialValues={initialValues}
+      onValueChange={action('onValueChange')}
       onFinish={action('onFinish')}
       onFinishFailed={action('onFinishFailed')}
       ref={ref}
@@ -106,13 +187,13 @@ export const BasicForm: Story = (args) => {
           <div className="amt-form-submit-area">
             <Button type="submit" btnType="primary">
               Login
-              {isSubmitting ? ' Validating...' : ' '}
               {isValid ? ' Info Valid' : ' Info not valid'}
             </Button>
-            <Button onClick={resetAll}>
+            <Button onClick={resetAll} style={{ marginLeft: 12 }}>
               Reset
             </Button>
           </div>
+          <div>Is Submitting? - {isSubmitting ? 'true' : 'false'}</div>
         </>
       )}
     </Form>

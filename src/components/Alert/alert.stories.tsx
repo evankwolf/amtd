@@ -6,8 +6,15 @@ import type { Meta, StoryFn } from '@storybook/react'
 
 type Story = StoryFn<typeof Alert>
 
+/**
+ * An alert component.
+ *
+ * It has different colors by changing the `type` attribute.
+ *
+ * You can also toggle the `closable` to set if the component is closable.
+ */
 const AlertMeta: Meta<typeof Alert> = {
-  title: 'Alert',
+  title: 'Feedback/Alert',
   component: Alert,
   tags: ['autodocs'],
 }
@@ -36,4 +43,10 @@ DangerType.args = {
 export const WarningType: Story = Template.bind({})
 WarningType.args = {
   type: 'warning',
+}
+
+export const AlertWithHeader: Story = Template.bind({})
+AlertWithHeader.args = {
+  type: 'default',
+  header: 'Hi there',
 }

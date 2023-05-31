@@ -15,7 +15,7 @@ export interface AlertProps {
   header?: string
   /** Set true to show close button and make the component closable */
   closable?: boolean
-  /** callback when alert is closed through the close button */
+  /** Callback when alert is closed through the close button */
   onClose?: () => void
 }
 

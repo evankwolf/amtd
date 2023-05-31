@@ -10,6 +10,11 @@ import type { MenuItemProps } from './menuItem'
 type MenuMode = 'horizontal' | 'vertical'
 type SelectCallback = (selectedIndex: string) => void
 
+export type MenuComponent = React.FC<MenuProps> & {
+  Item: typeof MenuItem
+  SubMenu: typeof SubMenu
+}
+
 export interface MenuProps {
   children?: React.ReactNode
   defaultIndex?: string
@@ -29,7 +34,7 @@ interface IMenuContext {
 
 export const MenuCtx = createContext<IMenuContext>({ index: '0' })
 
-export const Menu: React.FC<MenuProps> = (props) => {
+export const Menu: MenuComponent = (props) => {
   const {
     className,
     defaultIndex,
@@ -83,5 +88,8 @@ Menu.defaultProps = {
   defaultIndex: '0',
   mode: 'horizontal',
 }
+
+Menu.Item = MenuItem
+Menu.SubMenu = SubMenu
 
 export default Menu
