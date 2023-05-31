@@ -129,6 +129,36 @@ This is a react component library.
 This library is only built for personal practice. The source codes are pretty simple, and it's not 
 very hard to learn.
 
+## Install
+```bash
+pnpm install @kwolfsanta/amtd
+```
+
+## Usage
+
+```tsx
+// Something.tsx
+import React, { useState } from 'react'
+
+import { Button } from '@kwolfsanta/amtd'
+import '@kwolfsanta/amtd/dist/es/style.css'
+
+const HelloWorld = () => {
+  const [count, setCount] = useState(0)
+
+  const handleClick = () => {
+    setCount(count + 1)
+  }
+
+  return (
+    <div>
+      <Button btnType="primary" onClick={handleClick}>Current count: {count}</Button>
+    </div>
+  )
+}
+
+```
+
 I use the tools below to build this library:
 
 - [React](https://react.dev/) to build UI.

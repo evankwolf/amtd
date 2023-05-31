@@ -3,7 +3,7 @@
   "description": "React component library. Made to learn develope my own component library.",
   "author": "evankwolf",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "packageManager": "pnpm@7.8.0",
   "main": "dist/es/main.js",
