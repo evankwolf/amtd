@@ -4,7 +4,7 @@ type Story = StoryFn<typeof Icon>;
 declare const IconMeta: Meta<typeof Icon>;
 export default IconMeta;
 /**
- * All of the icons are based on [FontAwesome](https://fontawesome.com/). The awesome icon library and toolkit.
+ * All of the icons are based on [FontAwesome](https://fontawesome.com/). An amazing awesome icon library and toolkit.
  *
  * You can simply search for the icon you like through [here](https://fontawesome.com/search).
  *
